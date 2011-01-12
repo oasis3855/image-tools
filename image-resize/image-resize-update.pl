@@ -4,8 +4,8 @@ use strict;
 use warnings;
 use utf8;
 
-my $flag_os = 'windows';	# linux/windows
-my $flag_charcode = 'shiftjis';		# utf8/shiftjis
+my $flag_os = 'linux';	# linux/windows
+my $flag_charcode = 'utf8';		# utf8/shiftjis
 
 use Encode::Guess qw/euc-jp shiftjis iso-2022-jp/;	# 必要ないエンコードは削除すること
 use POSIX;		# mktime用
