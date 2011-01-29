@@ -15,6 +15,8 @@ use Image::ExifTool;
 use Image::Size;
 use Time::Local;
 use File::Copy;
+use Text::CSV_XS;
+
 
 use Data::Dumper;
 
@@ -31,9 +33,11 @@ if($flag_charcode eq 'shiftjis'){
 }
 
 
-my $strDirFrom = '';		# 元画像ディレクトリ
-my $strDirTo = '';			# リサイズ画像書き込みディレクトリ
+my $strDirFrom = '';		# 入力：元画像ディレクトリ
+my $strCsvName = '';		# 入力：元画像一覧のcsvファイル名
+my $strDirTo = '';			# 出力：リサイズ画像書き込みディレクトリ
 
+my $nCsvSwColumn = 5;		# CSVでコピー指令を格納しているカラム（0:1カラム, 1:2カラム ..., -1:常時コピー）
 my $nLongEdge = 640;		# 縮小時の長辺ピクセル
 my $nSharpness = 0.5;		# シャープネスの度合い
 
@@ -41,7 +45,10 @@ my $flag_write_mode = 'copy_from';
 						# from_all : 元画像すべて変換（上書きあり）
 						# to_all : リサイズ画像に存在すれば全て変換（上書きあり）
 						# from_no_overwr : 元画像すべて変換（上書きなし）
+my $flag_csv_read_mode = 0;	# csvによる対象ファイル指定を行う場合、1
+my $flag_sync_delete = 0;	# 変換先ディレクトリで「変換リストに一致しない」ファイルを削除
 
+my $flag_verbose = 1;		# デバッグ出力必要なとき 1
 
 my @arrImageFiles = ();		# 画像ファイルを格納する配列
 
@@ -59,43 +66,80 @@ if($flag_os eq 'windows'){
 print("\n".basename($0)." - 画像リサイズ、アップデート\n\n");
 
 sub_user_input_init();
-sub_scan_imagefiles();
 
-#print Data::Dumper->Dumper(\@arrImageFiles)."\n";
+# 対象画像一覧を @arrImageFiles に格納する
+if($flag_csv_read_mode == 1) {
+	sub_read_from_csv();
+} else{
+	sub_scan_imagefiles();
+}
 
-# デバッグ表示
-#foreach(@arrImageFiles){
-#	print($_->[0]." -> ".$_->[1].",  time=".$_->[2].", rot=".$_->[3].", match=".$_->[4]."\n");
-#}
+# 処理内容のプレビューと処理開始の確認
+if($flag_verbose == 1){ sub_preview_files(); }
 
+# 画像変換（リサイズ）
 sub_convert_images();
+
+# 変換先ディレクトリに存在する「一致しない」ファイルを全て削除
+if($flag_sync_delete == 1){ sub_sync_dir_to(); }
 
 exit();
 
 # 初期データの入力
 sub sub_user_input_init {
 
-	# プログラムの引数は、対象ディレクトリとする
-	if($#ARGV == 1 && length($ARGV[0])>1 && length($ARGV[1])>1)
+	# プログラムの第1引数は、読み込み対象ディレクトリ・ファイル、第二引数は出力ディレクトリとする
+	if($#ARGV >= 1 && length($ARGV[0])>1 && length($ARGV[1])>1)
 	{
 		$strDirFrom = sub_conv_to_flagged_utf8($ARGV[0]);
 		$strDirTo = sub_conv_to_flagged_utf8($ARGV[1]);
 	}
 
 	# 元画像ディレクトリの入力
-	print("元画像のあるディレクトリを、絶対または相対ディレクトリで入力\n（例：/home/user/, ./）");
+	print("元画像のあるディレクトリまたはcsvファイルを、絶対または相対ディレクトリで入力\n（例：/home/user/, ./）");
 	if(length($strDirFrom)>0){ print("[$strDirFrom] :"); }
 	else{ print(":"); }
 	$_ = <STDIN>;
 	chomp();
 	if(length($_)<=0){
 		if(length($strDirFrom)>0){ $_ = $strDirFrom; }	# スクリプトの引数のデフォルトを使う場合
-		else{ die("終了（理由：ディレクトリが入力されませんでした）\n"); }
+		else{ die("終了（理由：入力ディレクトリ又はcsvファイルが入力されませんでした）\n"); }
 	}
-	if(substr($_,-1) ne '/'){ $_ .= '/'; }	# ディレクトリは / で終わるように修正
-	unless(-d sub_conv_to_local_charset($_)){ die("終了（理由：ディレクトリ ".$_." が存在しません）\n"); }
-	$strDirFrom = $_;
-	print("元画像ディレクトリ (FROM) : " . $strDirFrom . "\n\n");
+	unless(-e sub_conv_to_local_charset($_)){ die("終了（理由：ディレクトリまたはファイル ".$_." が存在しません）\n"); }
+	if(-d sub_conv_to_local_charset($_)){
+		# ディレクトリの場合
+		$flag_csv_read_mode = 0;
+		if(substr($_,-1) ne '/'){ $_ .= '/'; }	# ディレクトリは / で終わるように修正
+		$strDirFrom = $_;
+		print("元画像ディレクトリ (FROM) : " . $strDirFrom . "\n\n");
+	}
+	elsif(-f sub_conv_to_local_charset($_)){
+		# ファイルの場合
+		$flag_csv_read_mode = 1;
+		$strCsvName = basename($strDirFrom);
+		$strDirFrom = dirname($strDirFrom);
+		if(substr($strDirFrom,-1) ne '/'){ $strDirFrom .= '/'; }	# ディレクトリは / で終わるように修正
+		print("元画像 基準ディレクトリ (FROM DIR) : " . $strDirFrom . "\n");
+		print("元画像 一覧ファイル (CSV File) : " . $strCsvName . "\n\n");
+	}
+	else{ die("終了（理由：ディレクトリまたはファイル ".$_." のタイプが不明）\n"); }
+
+
+	# CSV内で、コピー指令を示すカラム指定
+	if($flag_csv_read_mode == 1){
+		print("CSVファイルでコピー制御が書きこまれているカラム（1カラム目を0と表現する）の指定\n (-1:全ファイル指定, 0:ファイル名自体, 1 ... n) [$nCsvSwColumn] : ");
+		$_ = <STDIN>;
+		chomp;
+		if(length($_) <= 0){ $nCsvSwColumn = $nCsvSwColumn; }
+		elsif($_ =~ m/\-*[0-9]+/i){ $nCsvSwColumn = int($_); }
+		else{die("数値以外が指定されました"); }
+		
+		if($nCsvSwColumn < -1 || $nCsvSwColumn == 0){ die("-2以下、0は指定できません\n"); }
+		if($nCsvSwColumn == -1){ print("CSVの0カラム目の全てのファイル（が存在すれば）、リサイズ対象とします\n\n"); }
+		else{ print("コピー制御カラム : ".$nCsvSwColumn."\n\n"); }
+
+	}
+
 
 	# 作成した画像を格納するディレクトリの入力
 	print("リサイズ画像を保存するディレクトリを、絶対または相対ディレクトリで入力\n（例：/home/user/, ./）");
@@ -129,21 +173,28 @@ sub sub_user_input_init {
 	if($flag_write_mode eq 'to_all'){print("変換先画像ディレクトリに存在するすべての画像を変換（上書きON）\n\n");}
 	if($flag_write_mode eq 'from_no_overwr'){print("元画像ディレクトリの全ての画像を変換（上書きOFF）\n\n");}
 
+	# 変換先ディレクトリで「変換リストに一致しないファイル」を削除するか選択
+	print("変換先ディレクトリで、今回変換対象候補外の画像ファイルは削除する (Y/N) [N] :");
+	$_ = <STDIN>;
+	chomp;
+	if(length($_)<=0 || uc($_) ne 'Y'){ $flag_sync_delete = 0; }
+	else{ $flag_sync_delete = 1; }
+	print("変換先ディレクトリのSync処理 ： ".($flag_sync_delete==1 ? 'YES' : 'NO')."\n\n");
 
 	# 長辺ピクセルの入力
 	print("出力画像の長辺ピクセルを指定 (10-2000) [".$nLongEdge."] : ");
 	$_ = <STDIN>;
 	chomp;
-	if(length($_)<=0){ }
+	if(length($_)<=0){ $_ = $nLongEdge; }
 	elsif(int($_)<10 || int($_)>2000){ die("10-2000 の範囲外が指定されました\n"); }
 	$nLongEdge = int($_);
 	print("長辺ピクセル : ".$nLongEdge."\n\n");
 
 	# 長辺ピクセルの入力
-	print("出力画像の長辺ピクセルを指定 (0はOFFを意味する, 0-10.0) [".$nSharpness."] : ");
+	print("シャープネス処理の度合いを入力 (0はOFFを意味する, 0-10.0) [".$nSharpness."] : ");
 	$_ = <STDIN>;
 	chomp;
-	if(length($_)<=0){ }
+	if(length($_)<=0){ $_ = $nSharpness; }
 	elsif($_<0.0 || $_>10.0){ die("0-10 の範囲外が指定されました\n"); }
 	$nSharpness = $_*1.0;
 	if($nSharpness != 0.0){ print("シャープネス : ".$nSharpness."\n\n"); }
@@ -160,6 +211,7 @@ sub sub_user_input_init {
 		die("\nユーザによりキャンセルされました。\n");
 	}
 
+	print("\n");
 
 }
 
@@ -226,6 +278,85 @@ sub sub_scan_imagefiles {
 }
 
 
+# 画像一覧を格納したCSVファイルを読み込んで、対象画像を確定する
+sub sub_read_from_csv {
+
+	my $csv = Text::CSV_XS->new({binary=>1});
+	my $exifTool = Image::ExifTool->new();
+#	$exifTool->Options(DateFormat => "%s", StrictDate=> 1);		# Windows版ActivePerlでは%sはサポート外
+	$exifTool->Options(DateFormat => "%Y,%m,%d,%H,%M,%S", StrictDate=> 1);
+
+	open(FH_IN, "<".$strDirFrom.$strCsvName) or die("ファイル ".$strDirFrom.$strCsvName." を読み込めません");
+	my $nTargetFiles = 0;
+	while(<FH_IN>)
+	{
+		# CSV各行をパースして、ファイル名とコメントを配列$arrFileAndCommentに格納
+		my $strLine = sub_conv_to_flagged_utf8($_);
+		if($strLine eq ''){ next; }
+		$csv->parse($strLine) or next;
+		my @arrFields = $csv->fields();
+		if($#arrFields < 0){ next; }		# 要素数1以下のときはスキップ（最低、ファイル名は必要）
+
+		if($nCsvSwColumn >= 0){
+			unless(defined($arrFields[$nCsvSwColumn])){ next; }		# コピー制御カラム無しの場合、次へ
+			if($arrFields[$nCsvSwColumn] eq ''){ next; }		# コピー制御カラム空白の場合、次へ
+		}
+		my $strFileFrom = $strDirFrom . $arrFields[0];
+		my $strFileTo = $strDirTo . basename($arrFields[0]);
+		unless(-e sub_conv_to_local_charset($strFileFrom) && -f sub_conv_to_local_charset($strFileFrom)){
+			 next;		# ファイルが存在しない場合、次へ
+		}
+		my $nMatch = (-e sub_conv_to_local_charset($strFileTo) ? 1 : 0);		# 出力先ファイル存在確認
+
+		# Exif日時を読み込む
+		$exifTool->ImageInfo(sub_conv_to_local_charset($strFileFrom));
+		my $tmpDate = $exifTool->GetValue('CreateDate');
+		if(!defined($tmpDate)){ $tmpDate = (stat(sub_conv_to_local_charset($strFileFrom)))[9]; }	# Exifが無い場合は最終更新日
+		else{
+			my @arrTime_t = split(/,/,$tmpDate);
+			$tmpDate = mktime($arrTime_t[5], $arrTime_t[4], $arrTime_t[3], $arrTime_t[2], $arrTime_t[1]-1, $arrTime_t[0]-1900);
+		}
+
+		# 回転情報を得る（1:0 deg, 3:180 deg, 6:90 deg(CW), 8:270 deg (CW))
+		my $exifRotate = $exifTool->GetValue('Orientation', 'Raw');
+		if(defined($exifRotate)){ $exifRotate = int($exifTool->GetValue('Orientation', 'Raw')); }
+		if(!defined($exifRotate) || $exifRotate == 0){ $exifRotate = 1; }
+
+		my @arrTemp = ($strFileFrom,		# [0]: 入力画像フルパス（dir + basename）
+				$strFileTo,	# [1]:  出力画像フルパス（dir + basename）
+				$tmpDate,	# [2]: unix秒
+				$exifRotate,	# [3]: Exif回転情報
+				$nMatch);	# [4]: 出力先にファイルが存在する場合 1
+		push(@arrImageFiles, \@arrTemp);
+		$nTargetFiles++;
+	}
+	close(FH_IN) or die("ファイル $strCsvName を close 出来ませんでした");
+
+	### CSVから読み込んだデータの画面表示
+	printf("CSVから読み込み完了。データ行数 = %d\n", $nTargetFiles);
+
+}
+
+sub sub_preview_files {
+	print("=======================\n処理プレビュー\n");
+	for(my $i=0; $i<=$#arrImageFiles; $i++){
+		print $arrImageFiles[$i][0];
+		if($arrImageFiles[$i][4] == 1 && $flag_write_mode eq 'from_no_overwr'){ print(" (Skip)\n"); }
+		elsif($arrImageFiles[$i][4] != 1 && $flag_write_mode eq 'to_all'){ print(" (Skip)\n"); }
+		elsif($arrImageFiles[$i][4] == 1){ print(" (Overwrite)\n"); }
+		else{ print("\n"); }
+	}
+	print("\n画像変換を開始しますか ? (Y/N) [N] :");
+	$_ = <STDIN>;
+	chomp;
+	if(uc($_) ne 'Y'){
+		die("\nユーザによりキャンセルされました。\n");
+	}
+	
+	print("\n");
+}
+
+# 画像の変換（リサイズ処理）
 sub sub_convert_images{
 
 	my $image = Image::Magick->new();
@@ -239,49 +370,103 @@ sub sub_convert_images{
 
 		if($_->[4] != 1 && $flag_write_mode eq 'to_all'){
 			# 保存先に存在しないファイルはスキップ
-			print("dest ".basename($strFileFrom)." not exist, skip.\n");
+			print("info : dest ".basename($strFileFrom)." not exist, skip.\n");
 			next;
 		}
 		if($_->[4] == 1 && $flag_write_mode eq 'from_no_overwr'){
 			# 保存先に存在しないファイルはスキップ
-			print("dest ".basename($strFileFrom)." exist, skip.\n");
+			print("info : dest ".basename($strFileFrom)." exist, skip.\n");
 			next;
 		}
 		
-		print(basename($strFileFrom)."  converting ...\n");
+		print(basename($strFileFrom)."  converting ...  ");
 
 		@$image = ();           # 読み込まれている画像をクリア
-		my $image_check = $image->Read($strFileFrom);
-		if($image_check)
-		{
-			print("\n画像ファイル :" . $strFileFrom. " の読み込み不能\n");
-			next;
-		}
 
+		# 画像ファイルの読み込み
+		my $image_check = $image->Read($strFileFrom);
+		if($image_check){ print("(ERROR : read image)\n"); next; }
+
+		# 画像の縦横サイズの決定
 		my ($nWidth, $nHeight) = $image->Get('width', 'height');
-		if($nWidth <= 0 || $nHeight <= 0){ die("ジオメトリ読み込み失敗"); }
+		if($nWidth <= 0 || $nHeight <= 0){ print("(ERROR : read image x,y)\n"); next; }
 		my $nNewWidth = $nWidth > $nHeight ? $nLongEdge : int($nLongEdge*$nWidth/$nHeight);
 		my $nNewHeight = $nHeight > $nWidth ? $nLongEdge : int($nLongEdge*$nHeight/$nWidth);
+		print($nWidth."x".$nHeight."->".$nNewWidth."x".$nNewHeight." ");
 
+		# リサイズ
 		$image->AdaptiveResize(width=>$nNewWidth, height=>$nNewHeight);
-#		$image->Thumbnail(width=>$nNewWidth, height=>$nNewHeight);
+#		$image->Thumbnail(width=>$nNewWidth, height=>$nNewHeight);		# exif消す場合
+
+		# シャープネス
 		if($nSharpness != 0.0){ $image->Sharpen(radius=>0.0, sigma=>$nSharpness); }
+
 		# exif情報による回転
-		if($exifRotate == 3){$image->Rotate(degrees=>180.0); }
-		if($exifRotate == 6){$image->Rotate(degrees=>90.0); }
-		if($exifRotate == 8){$image->Rotate(degrees=>270.0); }
+		if($exifRotate == 3){$image->Rotate(degrees=>180.0); print("rot180 "); }
+		if($exifRotate == 6){$image->Rotate(degrees=>90.0); print("rot90 "); }
+		if($exifRotate == 8){$image->Rotate(degrees=>270.0); print("rot270 "); }
+
+		# 新規画像ファイルに保存
 		$image->Set(quality=>90);
 		$image_check = $image->Write(sub_conv_to_local_charset($strFileTo));
-		if($image_check)
-		{
-			print("\nサムネイル :" . $strFileTo. " の書き込み不能\n");
-			next;
-		}
+		if($image_check){ print("(ERROR : write image)\n"); next; }
+
+		print("\n");	# 正常に変換が終了した
 	}
 
 }
 
+# 変換一覧 @arrImageFiles に無いファイルで、変換先ディレクトリに存在する画像を削除する
+sub sub_sync_dir_to {
+	my @arrScan = ();	# ファイル一覧を一時的に格納する配列
+	my @arrDeleteFiles = ();	# 削除対象ファイルを格納する配列
+	my $nCountDeletefile = 0;		# 新規追加されたファイル数を数える
 
+	# ファイル一覧を得る
+	my $strScanPattern = '';
+	foreach(@arrFileScanMask){
+		if(length($strScanPattern)>1 && substr($strScanPattern,-1) ne ' '){$strScanPattern .= ' ';}
+		$strScanPattern .= $strDirTo.$_;
+	}
+	@arrScan = glob(sub_conv_to_local_charset($strScanPattern));
+
+	foreach(@arrScan)
+	{
+		if(length($_) <= 0){ next; }
+		$_ = sub_conv_to_flagged_utf8($_);
+		my $strFile = $_;
+
+		# $arrImageFiles に同一名のファイルがあれば、次の候補へ
+		my $nFound = 0;
+		foreach(@arrImageFiles){
+			if(basename($_->[1]) eq basename($strFile)){ $nFound = 1; }
+		}
+		if($nFound == 1){ next; }
+		
+		push(@arrDeleteFiles, $strFile);
+	}
+
+	if($#arrDeleteFiles < 0){ return; }
+
+	# ユーザに確認を求める
+	print("=======================\n変換先ディレクトリのこれらのファイルは削除対象です\n");
+	foreach(@arrDeleteFiles){ print(" delete : ".$_."\n"); }
+	print("これらのファイルを削除しますか (Y/N) [N] : ");
+	$_ = <STDIN>;
+	chomp;
+	if(uc($_) ne 'Y'){
+		die("\nユーザによりキャンセルされました。\n");
+	}
+	print("\n");
+
+	# 削除処理
+	foreach(@arrDeleteFiles){
+		if(!unlink($_)){ print("delete error : ".$_."\n"); }
+		else{ $nCountDeletefile++; }
+	}
+	print($nCountDeletefile." 個のファイルを削除しました\n");
+
+}
 
 # 任意の文字コードの文字列を、UTF-8フラグ付きのUTF-8に変換する
 sub sub_conv_to_flagged_utf8{
