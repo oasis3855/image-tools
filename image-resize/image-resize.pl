@@ -116,8 +116,8 @@ sub sub_user_input_init {
 	elsif(-f sub_conv_to_local_charset($_)){
 		# ファイルの場合
 		$flag_csv_read_mode = 1;
-		$strCsvName = basename($strDirFrom);
-		$strDirFrom = dirname($strDirFrom);
+		$strCsvName = basename($_);
+		$strDirFrom = dirname($_);
 		if(substr($strDirFrom,-1) ne '/'){ $strDirFrom .= '/'; }	# ディレクトリは / で終わるように修正
 		print("元画像 基準ディレクトリ (FROM DIR) : " . $strDirFrom . "\n");
 		print("元画像 一覧ファイル (CSV File) : " . $strCsvName . "\n\n");
@@ -410,6 +410,14 @@ sub sub_convert_images{
 		$image->Set(quality=>90);
 		$image_check = $image->Write(sub_conv_to_local_charset($strFileTo));
 		if($image_check){ print("(ERROR : write image)\n"); next; }
+		
+		# Exif回転をリセットする
+		if($exifRotate == 3 || $exifRotate == 6 || $exifRotate == 8){
+			my $exifTool = Image::ExifTool->new();
+			$exifTool->ImageInfo(sub_conv_to_local_charset($strFileTo));
+			$exifTool->SetNewValue('Orientation'=>1, Type => 'ValueConv');
+			$exifTool->WriteInfo(sub_conv_to_local_charset($strFileTo));
+		}
 
 		print("\n");	# 正常に変換が終了した
 	}
