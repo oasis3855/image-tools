@@ -1,0 +1,634 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 17, 1\r\n"
+    "#pragma code_page(932)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\ThumbHtmlImg.rc2""  // Microsoft Visual C++ 以外のツールで編集されたリソース\r\n"
+    "#include ""l.jpn\\afxres.rc""          // 標準のコンポーネント\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\Apps-sto.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 183, 179
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ThumbHtmlImg サムネイルHTML作成"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    LTEXT           "ThumbHtmlImg Version 1.5",IDC_STATIC,8,4,119,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright (C) 2000-2003 INOUE. Hirokazu\r\nhttp://inoue-h.connect.to/\r\nこのプログラムはフリーウエアー",
+                    IDC_STATIC,8,20,162,30
+    DEFPUSHBUTTON   "OK",IDOK,125,160,50,14,WS_GROUP
+    CONTROL         130,IDC_STATIC,"Static",SS_BITMAP | WS_BORDER,5,55,174,
+                    99
+END
+
+IDD_THUMB_HTML_IMG_DLG DIALOGEX 0, 0, 319, 275
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "ThumbHtmlImg サムネイルHTML作成 （画像整理）"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    GROUPBOX        "基準フォルダ （このフォルダの下にある、画像フォルダ等を対象にする）",
+                    IDC_STATIC,4,4,312,36
+    EDITTEXT        IDC_EDIT_PASS,8,16,224,16,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照",IDC_BTN_BROWSE,240,16,72,16
+    LTEXT           "画像フォルダ",IDC_STATIC,10,45,84,15,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_PHOTO,100,45,60,15,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照",IDC_BTN_PHOTO_BROWSE,160,45,20,15
+    LTEXT           "対象拡張子",IDC_STATIC,185,45,40,15,SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_PHOTOEXT,230,45,80,65,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "サムネイル画像フォルダ",IDC_STATIC,10,65,84,16,
+                    SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_PICS,100,65,60,15,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照",IDC_BTN_PICS_BROWSE,160,65,20,15
+    LTEXT           "対象拡張子",IDC_STATIC,185,65,40,16,SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_PICSEXT,230,65,80,60,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "HTML ファイルの設定",IDC_STATIC,5,85,312,115
+    LTEXT           "HTML ファイル名",IDC_STATIC,10,95,84,16,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_HTML,100,95,172,15,ES_AUTOHSCROLL
+    LTEXT           "HTML 表の列数",IDC_STATIC,10,115,84,16,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_COL,100,115,160,15,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN_COL,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,260,115,9,15
+    LTEXT           "IMG タグのオプション",IDC_STATIC,10,140,84,16,
+                    SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_IMGOPT,100,140,170,55,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "A LINK タグのオプション",IDC_STATIC,10,161,84,16,
+                    SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_LINKOPT,100,160,170,55,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "ファイル名・日時の追加",IDC_STATIC,10,180,84,16,
+                    SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_STYLE,100,182,170,88,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ファイルの並べ替え",IDC_STATIC,10,205,84,16,
+                    SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_SORT,100,205,170,65,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "上書きモードの設定",IDC_STATIC,5,225,312,25
+    CONTROL         "既存ファイルに強制上書き",IDC_RADIO_FORCEWR,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,10,235,112,10
+    CONTROL         "上書きする前に尋ねる",IDC_RADIO_FORCEWR2,"Button",
+                    BS_AUTORADIOBUTTON,162,235,112,10
+    PUSHBUTTON      "About",IDC_BTN_ABOUT,55,255,30,16
+    PUSHBUTTON      "処理実行",IDC_BTN_EXEC,90,255,72,16
+    DEFPUSHBUTTON   "終了",IDOK,166,255,72,16
+    PUSHBUTTON      "ヘルプ",IDC_BTN_HELP,242,255,72,16
+END
+
+IDD_HELPDOC DIALOG DISCARDABLE  0, 0, 289, 255
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ThumbHtmlImg サムネイルHTML作成 （画像整理） Viewer"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    PUSHBUTTON      "閉じる",IDOK,215,235,70,15
+    EDITTEXT        IDC_EDIT,5,5,280,225,ES_MULTILINE | ES_READONLY | 
+                    WS_VSCROLL
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,5,0,0
+ PRODUCTVERSION 1,5,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041104b0"
+        BEGIN
+            VALUE "Comments", "This Program is Free Software.\0"
+            VALUE "CompanyName", "INOUE. Hirokazu\0"
+            VALUE "FileDescription", "ThumbHtmlImg - Thumbnail HTML maker (Image List)\0"
+            VALUE "FileVersion", "1, 5, 0, 0\0"
+            VALUE "InternalName", "ThumbHtmlImg\0"
+            VALUE "LegalCopyright", "Copyright (C) 2000-2003 INOUE. Hirokazu\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "ThumbHtmlImg.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "ThumbHtmlDir\0"
+            VALUE "ProductVersion", "1, 5, 0, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 176
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 172
+    END
+
+    IDD_THUMB_HTML_IMG_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 312
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 268
+    END
+
+    IDD_HELPDOC, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 282
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 248
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP1             BITMAP  DISCARDABLE     "res\\gainen-zu.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_THUMB_HTML_IMG_DLG DLGINIT
+BEGIN
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x706a, 0x0067, 
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x706a, 0x002a, 
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x6967, 0x0066, 
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x6e70, 0x0067, 
+    IDC_CMB_PHOTOEXT, 0x403, 18, 0
+0x2e2a, 0x706a, 0x3b2a, 0x2e2a, 0x6967, 0x3b66, 0x2e2a, 0x6e70, 0x0067, 
+
+    IDC_CMB_PICSEXT, 0x403, 5, 0
+0x6a2e, 0x6770, "\000" 
+    IDC_CMB_PICSEXT, 0x403, 6, 0
+0x6a2e, 0x6570, 0x0067, 
+    IDC_CMB_PICSEXT, 0x403, 5, 0
+0x672e, 0x6669, "\000" 
+    IDC_CMB_PICSEXT, 0x403, 5, 0
+0x702e, 0x676e, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 9, 0
+0x6f62, 0x6472, 0x7265, 0x303d, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 9, 0
+0x6f62, 0x6472, 0x7265, 0x313d, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 9, 0
+0x6f62, 0x6472, 0x7265, 0x323d, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 27, 0
+0x6f62, 0x6472, 0x7265, 0x303d, 0x6820, 0x7073, 0x6361, 0x3d65, 0x2032, 
+0x7376, 0x6170, 0x6563, 0x323d, "\000" 
+    IDC_CMB_LINKOPT, 0x403, 14, 0
+0x6174, 0x6772, 0x7465, 0x223d, 0x745f, 0x706f, 0x0022, 
+    IDC_CMB_LINKOPT, 0x403, 16, 0
+0x6174, 0x6772, 0x7465, 0x223d, 0x625f, 0x616c, 0x6b6e, 0x0022, 
+    IDC_CMB_STYLE, 0x403, 5, 0
+0xb396, 0xb582, "\000" 
+    IDC_CMB_STYLE, 0x403, 23, 0
+0x7483, 0x4083, 0x4383, 0x8b83, 0xbc96, 0x6981, 0xe689, 0x9c91, 0xcc82, 
+0xba89, 0x6a81, "\000" 
+    IDC_CMB_STYLE, 0x403, 40, 0
+0x7483, 0x4083, 0x4383, 0x8b83, 0xbc96, 0x6981, 0xe689, 0x9c91, 0xcc82, 
+0xba89, 0x6a81, 0x9320, 0x8efa, 0x819e, 0x8969, 0x91e6, 0x829c, 0x89cc, 
+0x81ba, 0x006a, 
+    IDC_CMB_STYLE, 0x403, 40, 0
+0x7483, 0x4083, 0x4383, 0x8b83, 0xbc96, 0x6981, 0xe689, 0x9c91, 0xcc82, 
+0xb68d, 0x6a81, 0x9320, 0x8efa, 0x819e, 0x8969, 0x91e6, 0x829c, 0x89cc, 
+0x8145, 0x006a, 
+    IDC_CMB_STYLE, 0x403, 40, 0
+0x7483, 0x4083, 0x4383, 0x8b83, 0xbc96, 0x6981, 0xe689, 0x9c91, 0xcc82, 
+0x4589, 0x6a81, 0x9320, 0x8efa, 0x819e, 0x8969, 0x91e6, 0x829c, 0x89cc, 
+0x8145, 0x006a, 
+    IDC_CMB_STYLE, 0x403, 53, 0
+0x7483, 0x4083, 0x4383, 0x8b83, 0xbc96, 0x6981, 0xe689, 0x9c91, 0xcc82, 
+0xb68d, 0x6a81, 0x9320, 0x81fa, 0x8969, 0x91e6, 0x829c, 0x89cc, 0x8145, 
+0x206a, 0x9e8e, 0x6981, 0xe689, 0x9c91, 0xcc82, 0x4589, 0x6a81, "\000" 
+    IDC_CMB_STYLE, 0x403, 53, 0
+0x7483, 0x4083, 0x4383, 0x8b83, 0xbc96, 0x6981, 0xe689, 0x9c91, 0xcc82, 
+0x4589, 0x6a81, 0x9320, 0x81fa, 0x8969, 0x91e6, 0x829c, 0x89cc, 0x8145, 
+0x206a, 0x9e8e, 0x6981, 0xe689, 0x9c91, 0xcc82, 0x4589, 0x6a81, "\000" 
+    IDC_CMB_SORT, 0x403, 36, 0
+0x7483, 0x4083, 0x4383, 0x8b83, 0xbc96, 0xc582, 0x5c83, 0x5b81, 0x6783, 
+0x2020, 0xb88f, 0x878f, 0x8120, 0x4169, 0x2d20, 0x203e, 0x815a, 0x006a, 
+
+    IDC_CMB_SORT, 0x403, 36, 0
+0x7483, 0x4083, 0x4383, 0x8b83, 0xbc96, 0xc582, 0x5c83, 0x5b81, 0x6783, 
+0x2020, 0x7e8d, 0x878f, 0x8120, 0x5a69, 0x2d20, 0x203e, 0x8141, 0x006a, 
+
+    IDC_CMB_SORT, 0x403, 35, 0
+0xfa93, 0x9e8e, 0xc582, 0x5c83, 0x5b81, 0x6783, 0x2020, 0xb88f, 0x878f, 
+0x8120, 0x3169, 0x8e8c, 0x2d20, 0x203e, 0x3231, 0x8e8c, 0x6a81, "\000" 
+    IDC_CMB_SORT, 0x403, 35, 0
+0xfa93, 0x9e8e, 0xc582, 0x5c83, 0x5b81, 0x6783, 0x2020, 0x7e8d, 0x878f, 
+0x8120, 0x3169, 0x8c32, 0x208e, 0x3e2d, 0x3120, 0x8e8c, 0x6a81, "\000" 
+    IDC_CMB_SORT, 0x403, 15, 0
+0x5c83, 0x5b81, 0x6783, 0x408b, 0x5c94, 0x4f20, 0x4646, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "ThumbHtmlImg のﾊﾞｰｼﾞｮﾝ情報(&A)..."
+    IDS_AFX_APPNAME         "ThumbHtmlImg"
+    IDS_STR_ERRTITLE        "ThumbHtmlImg （エラー）"
+    STR_SW_LANG             "JPN"
+    STR_MES_SUCCESS         "HTMLファイル %s の作成が正常に終了しました"
+    STR_MESDLG_TITLE        "ThumbHtmlImg (メッセージ)"
+    STR_ERR_OPEN_HTML       "HTML ファイルが開けません"
+    STR_MESDLG_OVERWRITE    "HTMLファイル  %s がすでに存在します。上書きしますか？"
+    STR_MESDLG_NOIMAGE      "画像ファイルが存在しません。処理を中止します"
+    STR_MESDLG_EXCEEDLIM    "画像ファイル数が処理限界を超えました\r\n途中まで処理します"
+    STR_MESDLG_EXTTHUMB     "サムネイル画像の拡張子は、ピリオドで始まる文字列を入力してください"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    STR_MESDLG_COLUMN       "列数は 1 ～ 10 の間で設定してください"
+    STR_MESDLG_EXTTHUMBNO   "サムネイル画像の拡張子が設定されていません"
+    STR_MESDLG_EXTPHOTO     "画像の拡張子（検索パターン）が設定されていません"
+    STR_MESDLG_THUMBDIR     "サムネイル画像フォルダが設定されていません"
+    STR_MESDLG_PHOTODIR     "画像フォルダが設定されていません"
+    STR_MESDLG_HTMLNAME     "HTML ファイル名が設定されていません"
+    STR_MESDLG_BASEDIR      "基準パスが設定されていません"
+END
+
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 英語 (ｱﾒﾘｶ) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_THUMB_HTML_IMG_DLG DIALOGEX 0, 0, 319, 275
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "ThumbHtmlImg - Thumbnail HTML maker (Image List)"
+FONT 9, "Arial"
+BEGIN
+    GROUPBOX        "Base Folder",IDC_STATIC,4,4,312,36
+    EDITTEXT        IDC_EDIT_PASS,8,16,224,16,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BTN_BROWSE,240,16,72,16
+    LTEXT           "Image Folder",IDC_STATIC,10,45,84,15,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_PHOTO,100,45,60,15,ES_AUTOHSCROLL
+    PUSHBUTTON      "pick",IDC_BTN_PHOTO_BROWSE,160,45,20,15
+    LTEXT           "Scan Pat",IDC_STATIC,185,45,40,15,SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_PHOTOEXT,230,45,80,65,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Thumbnail Image Folder",IDC_STATIC,10,65,84,16,
+                    SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_PICS,100,65,60,15,ES_AUTOHSCROLL
+    PUSHBUTTON      "pick",IDC_BTN_PICS_BROWSE,160,65,20,15
+    LTEXT           "Extention",IDC_STATIC,185,65,40,16,SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_PICSEXT,230,65,80,60,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "HTML Settings",IDC_STATIC,5,85,312,115
+    LTEXT           "HTML File Name",IDC_STATIC,10,95,84,16,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_HTML,100,95,172,15,ES_AUTOHSCROLL
+    LTEXT           "List Column",IDC_STATIC,10,115,84,16,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_COL,100,115,160,15,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN_COL,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_AUTOBUDDY | UDS_ARROWKEYS,260,115,9,15
+    LTEXT           "IMG tag Option",IDC_STATIC,10,140,84,16,SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_IMGOPT,100,140,170,55,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "A LINK tag Option",IDC_STATIC,10,161,84,16,
+                    SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_LINKOPT,100,160,170,55,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Add file name and date",IDC_STATIC,10,180,84,16,
+                    SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_STYLE,98,182,170,88,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Sort method",IDC_STATIC,10,205,84,16,SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_SORT,100,204,170,65,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "HTML file overwrite warning",IDC_STATIC,5,225,312,25
+    CONTROL         "Do not Warn",IDC_RADIO_FORCEWR,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,10,235,112,10
+    CONTROL         "Warn every times",IDC_RADIO_FORCEWR2,"Button",
+                    BS_AUTORADIOBUTTON,162,235,112,10
+    PUSHBUTTON      "About",IDC_BTN_ABOUT,55,255,30,16
+    PUSHBUTTON      "Execute / Make",IDC_BTN_EXEC,90,255,72,16
+    DEFPUSHBUTTON   "Exit",IDOK,166,255,72,16
+    PUSHBUTTON      "Help",IDC_BTN_HELP,242,255,72,16
+END
+
+IDD_HELPDOC DIALOG DISCARDABLE  0, 0, 289, 255
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ThumbHtmlImg - Thumbnail HTML maker (Image List) Viewer"
+FONT 9, "Arial"
+BEGIN
+    PUSHBUTTON      "Close",IDOK,215,235,70,15
+    EDITTEXT        IDC_EDIT,5,5,280,225,ES_MULTILINE | ES_READONLY | 
+                    WS_VSCROLL
+END
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 183, 179
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ThumbHtmlImg - Thumbnail HTML maker (Image List)"
+FONT 9, "Arial"
+BEGIN
+    LTEXT           "ThumbHtmlImg Version 1.5",IDC_STATIC,8,4,119,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright (C) 2000-2003 INOUE. Hirokazu\r\nhttp://inoue-h.connect.to/\r\nThis program is Freeware",
+                    IDC_STATIC,8,20,162,30
+    DEFPUSHBUTTON   "OK",IDOK,125,160,50,14,WS_GROUP
+    CONTROL         130,IDC_STATIC,"Static",SS_BITMAP | WS_BORDER,5,55,174,
+                    99
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_THUMB_HTML_IMG_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 312
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 268
+    END
+
+    IDD_HELPDOC, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 282
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 248
+    END
+
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 176
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 172
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_THUMB_HTML_IMG_DLG DLGINIT
+BEGIN
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x706a, 0x0067, 
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x706a, 0x002a, 
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x6967, 0x0066, 
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x6e70, 0x0067, 
+    IDC_CMB_PHOTOEXT, 0x403, 18, 0
+0x2e2a, 0x706a, 0x3b2a, 0x2e2a, 0x6967, 0x3b66, 0x2e2a, 0x6e70, 0x0067, 
+
+    IDC_CMB_PICSEXT, 0x403, 5, 0
+0x6a2e, 0x6770, "\000" 
+    IDC_CMB_PICSEXT, 0x403, 6, 0
+0x6a2e, 0x6570, 0x0067, 
+    IDC_CMB_PICSEXT, 0x403, 5, 0
+0x672e, 0x6669, "\000" 
+    IDC_CMB_PICSEXT, 0x403, 5, 0
+0x702e, 0x676e, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 9, 0
+0x6f62, 0x6472, 0x7265, 0x303d, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 9, 0
+0x6f62, 0x6472, 0x7265, 0x313d, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 9, 0
+0x6f62, 0x6472, 0x7265, 0x323d, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 27, 0
+0x6f62, 0x6472, 0x7265, 0x303d, 0x6820, 0x7073, 0x6361, 0x3d65, 0x2032, 
+0x7376, 0x6170, 0x6563, 0x323d, "\000" 
+    IDC_CMB_LINKOPT, 0x403, 14, 0
+0x6174, 0x6772, 0x7465, 0x223d, 0x745f, 0x706f, 0x0022, 
+    IDC_CMB_LINKOPT, 0x403, 16, 0
+0x6174, 0x6772, 0x7465, 0x223d, 0x625f, 0x616c, 0x6b6e, 0x0022, 
+    IDC_CMB_STYLE, 0x403, 12, 0
+0x6f4e, 0x6120, 0x6464, 0x7469, 0x6f69, 0x006e, 
+    IDC_CMB_STYLE, 0x403, 18, 0
+0x6946, 0x656c, 0x616e, 0x656d, 0x2820, 0x6f62, 0x7474, 0x6d6f, 0x0029, 
+
+    IDC_CMB_STYLE, 0x403, 41, 0
+0x6946, 0x656c, 0x616e, 0x656d, 0x2820, 0x6f62, 0x7474, 0x6d6f, 0x2029, 
+0x6144, 0x6574, 0x6120, 0x646e, 0x5420, 0x6d69, 0x2065, 0x6228, 0x746f, 
+0x6f74, 0x296d, "\000" 
+    IDC_CMB_STYLE, 0x403, 38, 0
+0x6946, 0x656c, 0x616e, 0x656d, 0x2820, 0x656c, 0x7466, 0x2029, 0x6144, 
+0x6574, 0x6120, 0x646e, 0x5420, 0x6d69, 0x2065, 0x7228, 0x6769, 0x7468, 
+0x0029, 
+    IDC_CMB_STYLE, 0x403, 39, 0
+0x6946, 0x656c, 0x616e, 0x656d, 0x2820, 0x6972, 0x6867, 0x2974, 0x4420, 
+0x7461, 0x2065, 0x6e61, 0x2064, 0x6954, 0x656d, 0x2820, 0x6972, 0x6867, 
+0x2974, "\000" 
+    IDC_CMB_STYLE, 0x403, 42, 0
+0x6946, 0x656c, 0x616e, 0x656d, 0x2820, 0x656c, 0x7466, 0x2029, 0x6144, 
+0x6574, 0x2820, 0x6972, 0x6867, 0x2974, 0x5420, 0x6d69, 0x2065, 0x7228, 
+0x6769, 0x7468, 0x0029, 
+    IDC_CMB_STYLE, 0x403, 43, 0
+0x6946, 0x656c, 0x616e, 0x656d, 0x2820, 0x6972, 0x6867, 0x2974, 0x4420, 
+0x7461, 0x2065, 0x7228, 0x6769, 0x7468, 0x2029, 0x6954, 0x656d, 0x2820, 
+0x6972, 0x6867, 0x2974, "\000" 
+    IDC_CMB_SORT, 0x403, 27, 0
+0x6f53, 0x7472, 0x6220, 0x2079, 0x6946, 0x656c, 0x616e, 0x656d, 0x2820, 
+0x2041, 0x2e2e, 0x202e, 0x295a, "\000" 
+    IDC_CMB_SORT, 0x403, 27, 0
+0x6f53, 0x7472, 0x6220, 0x2079, 0x6946, 0x656c, 0x616e, 0x656d, 0x2820, 
+0x205a, 0x2e2e, 0x202e, 0x2941, "\000" 
+    IDC_CMB_SORT, 0x403, 45, 0
+0x6f53, 0x7472, 0x6220, 0x2079, 0x6144, 0x6574, 0x6120, 0x646e, 0x5420, 
+0x6d69, 0x2065, 0x4a28, 0x6e61, 0x6175, 0x7972, 0x2e20, 0x2e2e, 0x4420, 
+0x6365, 0x6d65, 0x6562, 0x2972, "\000" 
+    IDC_CMB_SORT, 0x403, 45, 0
+0x6f53, 0x7472, 0x6220, 0x2079, 0x6144, 0x6574, 0x6120, 0x646e, 0x5420, 
+0x6d69, 0x2065, 0x4428, 0x6365, 0x6d65, 0x6562, 0x2072, 0x2e2e, 0x202e, 
+0x614a, 0x756e, 0x7261, 0x2979, "\000" 
+    IDC_CMB_SORT, 0x403, 8, 0
+0x6f4e, 0x5320, 0x726f, 0x0074, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "About ThumbHtmlImg"
+    IDS_AFX_APPNAME         "ThumbHtmlImg"
+    IDS_STR_ERRTITLE        "ThumbHtmlImg (Error)"
+    STR_SW_LANG             "ENG"
+    STR_MES_SUCCESS         "Success to write HTML file %s"
+    STR_MESDLG_TITLE        "ThumbHtmlImg (Message)"
+    STR_ERR_OPEN_HTML       "Impossible to open HTML file"
+    STR_MESDLG_OVERWRITE    "HTML file %s already exist . DO you want to over write to it ?"
+    STR_MESDLG_NOIMAGE      "No image file , HTML file is not created ."
+    STR_MESDLG_EXCEEDLIM    "Exceeds file number limit .\r\nCurrent process is cut at limit ."
+    STR_MESDLG_EXTTHUMB     "Thumbnail extention must start with period (.) "
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    STR_MESDLG_COLUMN       "Column must between 1 to 10"
+    STR_MESDLG_EXTTHUMBNO   "Thumbnail extention is not inputted"
+    STR_MESDLG_EXTPHOTO     "Image extention (search pattern) is not inputted"
+    STR_MESDLG_THUMBDIR     "Thumbnail folder is not inputted"
+    STR_MESDLG_PHOTODIR     "Image folder is not inputted"
+    STR_MESDLG_HTMLNAME     "HTML file name is not inputted"
+    STR_MESDLG_BASEDIR      "Base folder is not inputted"
+END
+
+#endif    // 英語 (ｱﾒﾘｶ) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE 17, 1
+#pragma code_page(932)
+#endif //_WIN32
+#include "res\ThumbHtmlImg.rc2"  // Microsoft Visual C++ 以外のツールで編集されたリソース
+#include "l.jpn\afxres.rc"          // 標準のコンポーネント
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

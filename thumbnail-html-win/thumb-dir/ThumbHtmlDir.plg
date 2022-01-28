@@ -1,0 +1,40 @@
+<html>
+<body>
+<pre>
+<h1>ﾋﾞﾙﾄﾞのﾛｸﾞ</h1>
+<h3>
+--------------------構成: SumbHtmlDir - Win32 Release--------------------
+</h3>
+<h3>ｺﾏﾝﾄﾞ ﾗｲﾝ</h3>
+Creating command line "rc.exe /l 0x411 /fo"Release/SumbHtmlDir.res" /d "NDEBUG" /d "_AFXDLL" "G:\mnt\IDE1-5-DATA\DATA\SRC\VC\SumbHtmlDir\SumbHtmlDir.rc"" 
+一時ﾌｧｲﾙ "f:\temp\winnt\inoue-h\temp\RSPD.tmp" を作成し、次の内容を記録します
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Release/SumbHtmlDir.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"G:\mnt\IDE1-5-DATA\DATA\SRC\VC\SumbHtmlDir\SumbHtmlDir.cpp"
+"G:\mnt\IDE1-5-DATA\DATA\SRC\VC\SumbHtmlDir\SumbHtmlDirDlg.cpp"
+]
+Creating command line "cl.exe @"f:\temp\winnt\inoue-h\temp\RSPD.tmp"" 
+一時ﾌｧｲﾙ "f:\temp\winnt\inoue-h\temp\RSPE.tmp" を作成し、次の内容を記録します
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Release/SumbHtmlDir.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"G:\mnt\IDE1-5-DATA\DATA\SRC\VC\SumbHtmlDir\StdAfx.cpp"
+]
+Creating command line "cl.exe @"f:\temp\winnt\inoue-h\temp\RSPE.tmp"" 
+ｺﾏﾝﾄﾞ ﾗｲﾝ "link.exe /nologo /subsystem:windows /incremental:no /pdb:"Release/ThumbHtmlDir.pdb" /machine:I386 /out:"Release/ThumbHtmlDir.exe"  ".\Release\StdAfx.obj" ".\Release\SumbHtmlDir.obj" ".\Release\SumbHtmlDirDlg.obj" ".\Release\SumbHtmlDir.res" " の作成中
+<h3>ｱｳﾄﾌﾟｯﾄ ｳｨﾝﾄﾞｳ</h3>
+ﾘｿｰｽをｺﾝﾊﾟｲﾙ中...
+ｺﾝﾊﾟｲﾙ中...
+StdAfx.cpp
+ｺﾝﾊﾟｲﾙ中...
+SumbHtmlDir.cpp
+SumbHtmlDirDlg.cpp
+ｺｰﾄﾞを生成中...
+ﾘﾝｸ中...
+
+
+
+<h3>結果</h3>
+ThumbHtmlDir.exe - ｴﾗｰ 0、警告 0
+</pre>
+</body>
+</html>
