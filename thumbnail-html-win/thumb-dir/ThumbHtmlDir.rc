@@ -50,7 +50,7 @@ BEGIN
     "LANGUAGE 17, 1\r\n"
     "#pragma code_page(932)\r\n"
     "#endif //_WIN32\r\n"
-    "#include ""res\\SumbHtmlDir.rc2""  // Microsoft Visual C++ 以外のツールで編集されたリソース\r\n"
+    "#include ""res\\ThumbHtmlDir.rc2""  // Microsoft Visual C++ 以外のツールで編集されたリソース\r\n"
     "#include ""l.jpn\\afxres.rc""          // 標準のコンポーネント\r\n"
     "#endif\r\n"
     "\0"
@@ -75,52 +75,84 @@ IDR_MAINFRAME           ICON    DISCARDABLE     "res\\Apps-sto.ico"
 
 IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 195, 289
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "サムネイルHTML （フォルダ整理版）"
+CAPTION "ThumbHtmlDir サムネイルHTML作成 （フォルダ整理）"
 FONT 9, "ＭＳ Ｐゴシック"
 BEGIN
-    LTEXT           "ThumbHtmlDir Version 1.0  (JPEG専用)",IDC_STATIC,8,4,
-                    119,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2000 INOUE. Hirokazu\r\ninoue-h@iname.com\r\nこのプログラムはフリーウエアーです",
-                    IDC_STATIC,8,20,119,30
+    LTEXT           "ThumbHtmlDir Version 1.5",IDC_STATIC,8,4,119,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright (C) 2000-2003 INOUE. Hirokazu\r\nhttp://inoue-h.connect.to/\r\nこのプログラムはフリーソフトウエア",
+                    IDC_STATIC,8,20,177,25
     DEFPUSHBUTTON   "OK",IDOK,125,270,65,14,WS_GROUP
     CONTROL         130,IDC_STATIC,"Static",SS_BITMAP | WS_BORDER,10,50,174,
                     213
 END
 
-IDD_SUMBHTMLDIR_DIALOG DIALOGEX 0, 0, 319, 259
+IDD_THUMBHTMLDIR_DIALOG DIALOGEX 0, 0, 319, 289
 STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "サムネイルHTML （フォルダ整理版）"
+CAPTION "ThumbHtmlDir サムネイルHTML作成 （フォルダ整理）"
 FONT 9, "ＭＳ Ｐゴシック"
 BEGIN
+    GROUPBOX        "基準フォルダ （このフォルダの中にあるフォルダのサムネイルを作ります）",
+                    IDC_STATIC,4,4,312,36
     EDITTEXT        IDC_EDIT_PATH,8,16,224,16,ES_AUTOHSCROLL
     PUSHBUTTON      "参照",IDC_BTN_BROWSE,240,16,72,16
-    EDITTEXT        IDC_EDIT_PICS,98,50,172,16,ES_AUTOHSCROLL
-    EDITTEXT        IDC_EDIT_COL,98,75,172,16,ES_AUTOHSCROLL
-    EDITTEXT        IDC_EDIT_HTML,98,100,172,16,ES_AUTOHSCROLL
-    CONTROL         "既存ファイルに強制上書き",IDC_RADIO_FORCEWR,"Button",
-                    BS_AUTORADIOBUTTON,12,123,112,16
-    CONTROL         "上書きする前に尋ねる",IDC_RADIO_FORCEWR2,"Button",
-                    BS_AUTORADIOBUTTON,164,123,112,16
-    CONTROL         "各フォルダのリンク先を index.html とする",
-                    IDC_CHECK_ALINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,
-                    150,215,15
-    CONTROL         "既存フォルダ追加モードを利用する",IDC_CHECK_ADDPATH,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,180,135,15
-    EDITTEXT        IDC_EDIT_ADDPATH,10,200,224,16,ES_AUTOHSCROLL
-    PUSHBUTTON      "参照",IDC_BTN_BROWSE_ADDPATH,242,200,72,16
-    PUSHBUTTON      "説明",IDC_BTN_ABOUT,55,235,30,16
-    PUSHBUTTON      "処理実行",IDC_BTN_EXEC,90,235,72,16
-    DEFPUSHBUTTON   "終了",IDOK,166,235,72,16
-    PUSHBUTTON      "ヘルプ",IDC_BTN_HELP,242,235,72,16,WS_DISABLED
-    GROUPBOX        "親フォルダ （このフォルダの中にあるフォルダのサムネイルを作ります）",
-                    IDC_STATIC,4,4,312,36
-    LTEXT           "サムネイル画像フォルダ",IDC_STATIC,10,50,84,16,
+    LTEXT           "画像フォルダ",IDC_STATIC,10,45,80,15,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_PHOTO,95,45,60,15,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "参照",IDC_BTN_PHOTO_BROWSE,155,45,20,15,WS_DISABLED
+    LTEXT           "対象拡張子",IDC_STATIC,180,45,40,15,SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_PHOTOEXT,225,45,80,55,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "サムネイル画像フォルダ",IDC_STATIC,10,65,80,15,
                     SS_CENTERIMAGE
-    LTEXT           "HTML 表の列数",IDC_STATIC,10,75,84,16,SS_CENTERIMAGE
-    LTEXT           "HTML ファイル名",IDC_STATIC,10,100,84,16,SS_CENTERIMAGE
-    GROUPBOX        "既存フォルダ追加モード",IDC_STATIC,5,170,312,55
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,5,95,310,50
+    EDITTEXT        IDC_EDIT_PICS,95,65,60,15,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照",IDC_BTN_PICS_BROWSE,155,65,20,15
+    LTEXT           "対象拡張子",IDC_STATIC,180,65,40,15,SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_PICSEXT,225,65,80,55,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "HTML ファイルの設定",IDC_STATIC,5,85,310,115
+    LTEXT           "HTML ファイル名",IDC_STATIC,10,100,80,15,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_HTML,95,100,172,15,ES_AUTOHSCROLL
+    LTEXT           "HTML 表の列数",IDC_STATIC,10,120,80,15,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_COL,95,120,165,15,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN_COLUMN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,260,120,9,15
+    LTEXT           "IMG タグのオプション",IDC_STATIC,10,140,80,15,
+                    SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_IMGOPT,95,140,175,85,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "A LINK タグのオプション",IDC_STATIC,10,160,80,15,
+                    SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_LINKOPT,95,160,175,70,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "上書きモードの設定",IDC_STATIC,5,205,310,25
+    CONTROL         "既存ファイルに強制上書き",IDC_RADIO_FORCEWR,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,10,215,112,11
+    CONTROL         "上書きする前に尋ねる",IDC_RADIO_FORCEWR2,"Button",
+                    BS_AUTORADIOBUTTON,162,215,112,11
+    CONTROL         "既存フォルダ追加モードを利用する",IDC_CHECK_ADDPATH,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,235,135,10
+    EDITTEXT        IDC_EDIT_ADDPATH,10,251,224,16,ES_AUTOHSCROLL
+    PUSHBUTTON      "参照",IDC_BTN_BROWSE_ADDPATH,240,251,70,16
+    PUSHBUTTON      "About",IDC_BTN_ABOUT,55,271,30,16
+    PUSHBUTTON      "処理実行",IDC_BTN_EXEC,90,271,72,16
+    DEFPUSHBUTTON   "終了",IDOK,165,271,72,16
+    PUSHBUTTON      "ヘルプ",IDC_BTN_HELP,240,271,70,16
+    COMBOBOX        IDC_CMB_LINKFILE,95,180,175,70,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "リンク先のファイル名",IDC_STATIC,10,180,80,15,
+                    SS_CENTERIMAGE
+END
+
+IDD_HELPDOC DIALOG DISCARDABLE  0, 0, 289, 255
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ThumbHtmlDir サムネイルHTML作成 （フォルダ整理） Viewer"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    PUSHBUTTON      "閉じる",IDOK,215,235,70,15
+    EDITTEXT        IDC_EDIT,5,5,280,225,ES_MULTILINE | ES_READONLY | 
+                    WS_VSCROLL
 END
 
 
@@ -131,8 +163,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,0
- PRODUCTVERSION 1,0,0,0
+ FILEVERSION 1,5,0,0
+ PRODUCTVERSION 1,5,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -147,17 +179,17 @@ BEGIN
     BEGIN
         BLOCK "041104b0"
         BEGIN
-            VALUE "Comments", "\0"
+            VALUE "Comments", "This Program is Free Software.\0"
             VALUE "CompanyName", "INOUE. Hirokazu\0"
-            VALUE "FileDescription", "サムネイルHTML (フォルダ整理版)\0"
-            VALUE "FileVersion", "1, 0, 0, 0\0"
+            VALUE "FileDescription", "ThumbHtmlDir - Thumbnail HTML maker (Folder List)\0"
+            VALUE "FileVersion", "1, 5, 0, 0\0"
             VALUE "InternalName", "ThumbHtmlDir\0"
-            VALUE "LegalCopyright", "Copyright (C) 2000 INOUE. Hirokazu\0"
+            VALUE "LegalCopyright", "Copyright (C) 2000-2003 INOUE. Hirokazu\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "ThumbHtmlDir.EXE\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "ThumbHtmlDir\0"
-            VALUE "ProductVersion", "1, 0, 0, 0\0"
+            VALUE "ProductVersion", "1, 5, 0, 0\0"
             VALUE "SpecialBuild", "\0"
         END
     END
@@ -186,12 +218,20 @@ BEGIN
         BOTTOMMARGIN, 282
     END
 
-    IDD_SUMBHTMLDIR_DIALOG, DIALOG
+    IDD_THUMBHTMLDIR_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 312
         TOPMARGIN, 7
-        BOTTOMMARGIN, 252
+        BOTTOMMARGIN, 282
+    END
+
+    IDD_HELPDOC, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 287
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 238
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -206,15 +246,303 @@ IDB_BITMAP1             BITMAP  DISCARDABLE     "res\\gainen-zu.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// Dialog Info
+//
+
+IDD_THUMBHTMLDIR_DIALOG DLGINIT
+BEGIN
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x706a, 0x0067, 
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x706a, 0x002a, 
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x6967, 0x0066, 
+    IDC_CMB_PHOTOEXT, 0x403, 18, 0
+0x2e2a, 0x706a, 0x3b2a, 0x2e2a, 0x6967, 0x3b66, 0x2e2a, 0x6e70, 0x0067, 
+
+    IDC_CMB_PICSEXT, 0x403, 5, 0
+0x6a2e, 0x6770, "\000" 
+    IDC_CMB_PICSEXT, 0x403, 6, 0
+0x6a2e, 0x6570, 0x0067, 
+    IDC_CMB_PICSEXT, 0x403, 5, 0
+0x672e, 0x6669, "\000" 
+    IDC_CMB_PICSEXT, 0x403, 5, 0
+0x702e, 0x676e, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 9, 0
+0x6f62, 0x6472, 0x7265, 0x303d, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 9, 0
+0x6f62, 0x6472, 0x7265, 0x313d, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 9, 0
+0x6f62, 0x6472, 0x7265, 0x323d, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 27, 0
+0x6f62, 0x6472, 0x7265, 0x303d, 0x6820, 0x7073, 0x6361, 0x3d65, 0x2032, 
+0x7376, 0x6170, 0x6563, 0x323d, "\000" 
+    IDC_CMB_LINKOPT, 0x403, 14, 0
+0x6174, 0x6772, 0x7465, 0x223d, 0x745f, 0x706f, 0x0022, 
+    IDC_CMB_LINKOPT, 0x403, 16, 0
+0x6174, 0x6772, 0x7465, 0x223d, 0x625f, 0x616c, 0x6b6e, 0x0022, 
+    IDC_CMB_LINKFILE, 0x403, 11, 0
+0x6e69, 0x6564, 0x2e78, 0x7468, 0x6c6d, "\000" 
+    IDC_CMB_LINKFILE, 0x403, 10, 0
+0x6e69, 0x6564, 0x2e78, 0x7468, 0x006d, 
+    IDC_CMB_LINKFILE, 0x403, 12, 0
+0x6564, 0x6166, 0x6c75, 0x2e74, 0x7468, 0x006d, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // String Table
 //
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    IDS_ABOUTBOX            "SumbHtmlDir のﾊﾞｰｼﾞｮﾝ情報(&A)..."
+    IDS_ABOUTBOX            "ThumbHtmlDir のﾊﾞｰｼﾞｮﾝ情報(&A)..."
+    STR_MESDLG_COLUMN       "列数は 1 ～ 10 の間で設定してください"
+    STR_MESDLG_EXTTHUMB     "サムネイル画像の拡張子は、ピリオドで始まる文字列を入力してください"
+    IDS_STR_ERRTITLE        "ThumbHtmlDir (エラー)"
+    STR_MESDLG_BASEDIR      "基準パスが設定されていません"
+    STR_MESDLG_HTMLNAME     "HTML ファイル名が設定されていません"
+    STR_MESDLG_THUMBDIR     "サムネイル画像フォルダが設定されていません"
+    STR_MESDLG_EXTPHOTO     "画像の拡張子（検索パターン）が設定されていません"
+    STR_MESDLG_EXTTHUMBNO   "サムネイル画像の拡張子が設定されていません"
+    STR_MESDLG_ADDPATH      "既存フォルダ名が設定されていません"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    STR_MESDLG_EXCEEDLIM    "フォルダ数が処理限界を超えました\r\n途中まで処理します"
+    STR_MESDLG_NODIR        "フォルダが存在しません。処理を中止します"
+    STR_ERR_MAKEPICDIR      "サムネイル フォルダが作成できません。\r\n処理を中止します"
+    STR_MESDLG_OVERWRITE    "サムネイルフォルダ "" %s "" がすでに存在します\nこのフォルダを利用しますか？"
+    STR_MESDLG_TITLE        "ThumbHtmlDir メッセージ"
+    STR_MESDLG_SAMEPICDIR   "同名のファイル "" %s "" があるため、フォルダを作成できません。\r\n処理を中止します"
+    STR_MESDLG_SAMEDIR      "重複フォルダが存在します\n処理を続行しますか？\n\n（重複フォルダは次のとおりです）\n\n %s"
+    STR_MESDLG_HTMLOVERWRITE 
+                            "HTMLファイル  %s がすでに存在します。上書きしますか？"
+    STR_ERR_OPEN_HTML       "HTML ファイルが開けません"
+    STR_MES_SUCCESS         "HTMLファイル %s の作成が正常に終了しました"
+    STR_SW_LANG             "JPN"
 END
 
 #endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 英語 (ｱﾒﾘｶ) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_THUMBHTMLDIR_DIALOG DIALOGEX 0, 0, 319, 289
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "ThumbHtmlDir Thumbnail HTML maket (folder list)"
+FONT 9, "Arial"
+BEGIN
+    GROUPBOX        "Base Folder",IDC_STATIC,4,4,312,36
+    EDITTEXT        IDC_EDIT_PATH,8,16,224,16,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BTN_BROWSE,240,16,72,16
+    LTEXT           "Image Folder",IDC_STATIC,10,45,80,15,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_PHOTO,95,45,60,15,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "pick",IDC_BTN_PHOTO_BROWSE,155,45,20,15,WS_DISABLED
+    LTEXT           "?????",IDC_STATIC,180,45,40,15,SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_PHOTOEXT,225,45,80,55,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Thumbnail Image Folder",IDC_STATIC,10,65,80,15,
+                    SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_PICS,95,65,60,15,ES_AUTOHSCROLL
+    PUSHBUTTON      "pick",IDC_BTN_PICS_BROWSE,155,65,20,15
+    LTEXT           "?????",IDC_STATIC,180,65,40,15,SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_PICSEXT,225,65,80,55,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "HTML Settings",IDC_STATIC,5,85,310,115
+    LTEXT           "HTML File Name",IDC_STATIC,10,100,80,15,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_HTML,95,100,172,15,ES_AUTOHSCROLL
+    LTEXT           "List Column",IDC_STATIC,10,120,80,15,SS_CENTERIMAGE
+    EDITTEXT        IDC_EDIT_COL,95,120,165,15,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN_COLUMN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,260,120,9,15
+    LTEXT           "IMG tag Option",IDC_STATIC,10,140,80,15,SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_IMGOPT,95,140,175,85,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "A LINK tag Option",IDC_STATIC,10,160,80,15,
+                    SS_CENTERIMAGE
+    COMBOBOX        IDC_CMB_LINKOPT,95,160,175,70,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "HTML file overwrite warning",IDC_STATIC,5,205,310,25
+    CONTROL         "Do not Warn",IDC_RADIO_FORCEWR,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,10,215,112,11
+    CONTROL         "Warn every times",IDC_RADIO_FORCEWR2,"Button",
+                    BS_AUTORADIOBUTTON,162,215,112,11
+    CONTROL         "Add to Reference Base Folder",IDC_CHECK_ADDPATH,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,10,235,135,10
+    EDITTEXT        IDC_EDIT_ADDPATH,10,251,224,16,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse",IDC_BTN_BROWSE_ADDPATH,240,251,70,16
+    PUSHBUTTON      "About",IDC_BTN_ABOUT,55,271,30,16
+    PUSHBUTTON      "Execute / Make",IDC_BTN_EXEC,90,271,72,16
+    DEFPUSHBUTTON   "Exit",IDOK,165,271,72,16
+    PUSHBUTTON      "Help",IDC_BTN_HELP,240,271,70,16
+    COMBOBOX        IDC_CMB_LINKFILE,95,180,175,70,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "A LINK Target File",IDC_STATIC,10,180,80,15,
+                    SS_CENTERIMAGE
+END
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 195, 244
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ThumbHtmlDir Thumbnail HTML maker (Folder List)"
+FONT 9, "Arial"
+BEGIN
+    LTEXT           "ThumbHtmlDir Version 1.5",IDC_STATIC,8,4,119,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright (C) 2000-2003 INOUE. Hirokazu\r\nhttp://inoue-h.connect.to/\r\nThis program is Free Software",
+                    IDC_STATIC,8,20,177,25
+    DEFPUSHBUTTON   "OK",IDOK,120,225,65,14,WS_GROUP
+    CONTROL         130,IDC_STATIC,"Static",SS_BITMAP | WS_BORDER,10,50,174,
+                    213
+END
+
+IDD_HELPDOC DIALOG DISCARDABLE  0, 0, 289, 255
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ThumbHtmlDir Thumbnail HTML maket (Folder List) Viewer"
+FONT 9, "Arial"
+BEGIN
+    PUSHBUTTON      "Close",IDOK,215,235,70,15
+    EDITTEXT        IDC_EDIT,5,5,280,225,ES_MULTILINE | ES_READONLY | 
+                    WS_VSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_THUMBHTMLDIR_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 312
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 282
+    END
+
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 188
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 237
+    END
+
+    IDD_HELPDOC, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 287
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 238
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_THUMBHTMLDIR_DIALOG DLGINIT
+BEGIN
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x706a, 0x0067, 
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x706a, 0x002a, 
+    IDC_CMB_PHOTOEXT, 0x403, 6, 0
+0x2e2a, 0x6967, 0x0066, 
+    IDC_CMB_PHOTOEXT, 0x403, 18, 0
+0x2e2a, 0x706a, 0x3b2a, 0x2e2a, 0x6967, 0x3b66, 0x2e2a, 0x6e70, 0x0067, 
+
+    IDC_CMB_PICSEXT, 0x403, 5, 0
+0x6a2e, 0x6770, "\000" 
+    IDC_CMB_PICSEXT, 0x403, 6, 0
+0x6a2e, 0x6570, 0x0067, 
+    IDC_CMB_PICSEXT, 0x403, 5, 0
+0x672e, 0x6669, "\000" 
+    IDC_CMB_PICSEXT, 0x403, 5, 0
+0x702e, 0x676e, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 9, 0
+0x6f62, 0x6472, 0x7265, 0x303d, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 9, 0
+0x6f62, 0x6472, 0x7265, 0x313d, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 9, 0
+0x6f62, 0x6472, 0x7265, 0x323d, "\000" 
+    IDC_CMB_IMGOPT, 0x403, 27, 0
+0x6f62, 0x6472, 0x7265, 0x303d, 0x6820, 0x7073, 0x6361, 0x3d65, 0x2032, 
+0x7376, 0x6170, 0x6563, 0x323d, "\000" 
+    IDC_CMB_LINKOPT, 0x403, 14, 0
+0x6174, 0x6772, 0x7465, 0x223d, 0x745f, 0x706f, 0x0022, 
+    IDC_CMB_LINKOPT, 0x403, 16, 0
+0x6174, 0x6772, 0x7465, 0x223d, 0x625f, 0x616c, 0x6b6e, 0x0022, 
+    IDC_CMB_LINKFILE, 0x403, 11, 0
+0x6e69, 0x6564, 0x2e78, 0x7468, 0x6c6d, "\000" 
+    IDC_CMB_LINKFILE, 0x403, 10, 0
+0x6e69, 0x6564, 0x2e78, 0x7468, 0x006d, 
+    IDC_CMB_LINKFILE, 0x403, 12, 0
+0x6564, 0x6166, 0x6c75, 0x2e74, 0x7468, 0x006d, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "About ThumbHtmlDir"
+    STR_MESDLG_COLUMN       "Column must between 1 to 10"
+    STR_MESDLG_EXTTHUMB     "Thumbnail extention must start with period (.) "
+    IDS_STR_ERRTITLE        "ThumbHtmlDir (Error)"
+    STR_MESDLG_BASEDIR      "Base folder is not inputted"
+    STR_MESDLG_HTMLNAME     "HTML file name is not inputted"
+    STR_MESDLG_THUMBDIR     "Thumbnail folder is not inputted"
+    STR_MESDLG_EXTPHOTO     "Image extention (search pattern) is not inputted"
+    STR_MESDLG_EXTTHUMBNO   "Thumbnail extention is not inputted"
+    STR_MESDLG_ADDPATH      "Add Reference Base Folder is not inputted"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    STR_MESDLG_EXCEEDLIM    "Exceeds file number limit .\r\nCurrent process is cut at limit ."
+    STR_MESDLG_NODIR        "No image folder , HTML file is not created ."
+    STR_ERR_MAKEPICDIR      "Error on make thumbnail folder.\nHTML file is not created."
+    STR_MESDLG_OVERWRITE    "HTML file %s already exist . DO you want to over write to it ?"
+    STR_MESDLG_TITLE        "ThumbHtmlDir (Message)"
+    STR_MESDLG_SAMEPICDIR   "Same name File "" %s "" exists on Base folder.\n\nStop Process."
+    STR_MESDLG_SAMEDIR      "Same Folder "" %s "" exists on Add Reference folder.\n\nDo you want to continue ?"
+    STR_MESDLG_HTMLOVERWRITE 
+                            "HTML file %s already exist . DO you want to over write to it ?"
+    STR_ERR_OPEN_HTML       "Impossible to open HTML file"
+    STR_MES_SUCCESS         "Success to write HTML file %s"
+    STR_SW_LANG             "ENG"
+END
+
+#endif    // 英語 (ｱﾒﾘｶ) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -234,7 +562,7 @@ END
 LANGUAGE 17, 1
 #pragma code_page(932)
 #endif //_WIN32
-#include "res\SumbHtmlDir.rc2"  // Microsoft Visual C++ 以外のツールで編集されたリソース
+#include "res\ThumbHtmlDir.rc2"  // Microsoft Visual C++ 以外のツールで編集されたリソース
 #include "l.jpn\afxres.rc"          // 標準のコンポーネント
 #endif
 

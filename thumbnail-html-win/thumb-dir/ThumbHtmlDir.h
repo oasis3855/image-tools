@@ -1,4 +1,4 @@
-// SumbHtmlDir.h : SUMBHTMLDIR アプリケーションのメイン ヘッダー ファイルです。
+// ThumbHtmlDir.h : SUMBHTMLDIR アプリケーションのメイン ヘッダー ファイルです。
 //
 
 #if !defined(AFX_SUMBHTMLDIR_H__6596E9C4_C3AB_11D4_AD9A_0090CCA1066A__INCLUDED_)
@@ -15,25 +15,25 @@
 #include "resource.h"		// メイン シンボル
 
 /////////////////////////////////////////////////////////////////////////////
-// CSumbHtmlDirApp:
-// このクラスの動作の定義に関しては SumbHtmlDir.cpp ファイルを参照してください。
+// CThumbHtmlDirApp:
+// このクラスの動作の定義に関しては ThumbHtmlDir.cpp ファイルを参照してください。
 //
 
-class CSumbHtmlDirApp : public CWinApp
+class CThumbHtmlDirApp : public CWinApp
 {
 public:
-	CSumbHtmlDirApp();
+	CThumbHtmlDirApp();
 
 // オーバーライド
 	// ClassWizard は仮想関数のオーバーライドを生成します。
-	//{{AFX_VIRTUAL(CSumbHtmlDirApp)
+	//{{AFX_VIRTUAL(CThumbHtmlDirApp)
 	public:
 	virtual BOOL InitInstance();
 	//}}AFX_VIRTUAL
 
 // インプリメンテーション
 
-	//{{AFX_MSG(CSumbHtmlDirApp)
+	//{{AFX_MSG(CThumbHtmlDirApp)
 		// メモ - ClassWizard はこの位置にメンバ関数を追加または削除します。
 		//        この位置に生成されるコードを編集しないでください。
 	//}}AFX_MSG

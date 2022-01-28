@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="SumbHtmlDir" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="ThumbHtmlDir" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** 編集しないでください **
 
 # TARGTYPE "Win32 (x86) Application" 0x0101
 
-CFG=SumbHtmlDir - Win32 Debug
+CFG=ThumbHtmlDir - Win32 Debug
 !MESSAGE これは有効なﾒｲｸﾌｧｲﾙではありません。 このﾌﾟﾛｼﾞｪｸﾄをﾋﾞﾙﾄﾞするためには NMAKE を使用してください。
 !MESSAGE [ﾒｲｸﾌｧｲﾙのｴｸｽﾎﾟｰﾄ] ｺﾏﾝﾄﾞを使用して実行してください
 !MESSAGE 
-!MESSAGE NMAKE /f "SumbHtmlDir.mak".
+!MESSAGE NMAKE /f "ThumbHtmlDir.mak".
 !MESSAGE 
 !MESSAGE NMAKE の実行時に構成を指定できます
 !MESSAGE ｺﾏﾝﾄﾞ ﾗｲﾝ上でﾏｸﾛの設定を定義します。例:
 !MESSAGE 
-!MESSAGE NMAKE /f "SumbHtmlDir.mak" CFG="SumbHtmlDir - Win32 Debug"
+!MESSAGE NMAKE /f "ThumbHtmlDir.mak" CFG="ThumbHtmlDir - Win32 Debug"
 !MESSAGE 
 !MESSAGE 選択可能なﾋﾞﾙﾄﾞ ﾓｰﾄﾞ:
 !MESSAGE 
-!MESSAGE "SumbHtmlDir - Win32 Release" ("Win32 (x86) Application" 用)
-!MESSAGE "SumbHtmlDir - Win32 Debug" ("Win32 (x86) Application" 用)
+!MESSAGE "ThumbHtmlDir - Win32 Release" ("Win32 (x86) Application" 用)
+!MESSAGE "ThumbHtmlDir - Win32 Debug" ("Win32 (x86) Application" 用)
 !MESSAGE 
 
 # Begin Project
@@ -29,7 +29,7 @@ CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "SumbHtmlDir - Win32 Release"
+!IF  "$(CFG)" == "ThumbHtmlDir - Win32 Release"
 
 # PROP BASE Use_MFC 6
 # PROP BASE Use_Debug_Libraries 0
@@ -53,9 +53,9 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 /nologo /subsystem:windows /machine:I386 /out:"Release/ThumbHtmlDir.exe"
+# ADD LINK32 /nologo /subsystem:windows /machine:I386
 
-!ELSEIF  "$(CFG)" == "SumbHtmlDir - Win32 Debug"
+!ELSEIF  "$(CFG)" == "ThumbHtmlDir - Win32 Debug"
 
 # PROP BASE Use_MFC 6
 # PROP BASE Use_Debug_Libraries 1
@@ -79,17 +79,21 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 /nologo /subsystem:windows /debug /machine:I386 /out:"Debug/ThumbHtmlDir.exe" /pdbtype:sept
+# ADD LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
 # Begin Target
 
-# Name "SumbHtmlDir - Win32 Release"
-# Name "SumbHtmlDir - Win32 Debug"
+# Name "ThumbHtmlDir - Win32 Release"
+# Name "ThumbHtmlDir - Win32 Debug"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# Begin Source File
+
+SOURCE=.\HelpDocViewer.cpp
+# End Source File
 # Begin Source File
 
 SOURCE=.\StdAfx.cpp
@@ -97,20 +101,24 @@ SOURCE=.\StdAfx.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\SumbHtmlDir.cpp
+SOURCE=.\ThumbHtmlDir.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\SumbHtmlDir.rc
+SOURCE=.\ThumbHtmlDir.rc
 # End Source File
 # Begin Source File
 
-SOURCE=.\SumbHtmlDirDlg.cpp
+SOURCE=.\ThumbHtmlDirDlg.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\HelpDocViewer.h
+# End Source File
 # Begin Source File
 
 SOURCE=.\Resource.h
@@ -121,11 +129,11 @@ SOURCE=.\StdAfx.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\SumbHtmlDir.h
+SOURCE=.\ThumbHtmlDir.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\SumbHtmlDirDlg.h
+SOURCE=.\ThumbHtmlDirDlg.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -145,11 +153,11 @@ SOURCE=".\res\gainen-zu.bmp"
 # End Source File
 # Begin Source File
 
-SOURCE=.\res\SumbHtmlDir.ico
+SOURCE=.\res\ThumbHtmlDir.ico
 # End Source File
 # Begin Source File
 
-SOURCE=.\res\SumbHtmlDir.rc2
+SOURCE=.\res\ThumbHtmlDir.rc2
 # End Source File
 # End Group
 # Begin Source File

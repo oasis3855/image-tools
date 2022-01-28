@@ -1,9 +1,9 @@
-// SumbHtmlDir.cpp : アプリケーション用クラスの定義を行います。
+// ThumbHtmlDir.cpp : アプリケーション用クラスの定義を行います。
 //
 
 #include "stdafx.h"
-#include "SumbHtmlDir.h"
-#include "SumbHtmlDirDlg.h"
+#include "ThumbHtmlDir.h"
+#include "ThumbHtmlDirDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -12,10 +12,10 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// CSumbHtmlDirApp
+// CThumbHtmlDirApp
 
-BEGIN_MESSAGE_MAP(CSumbHtmlDirApp, CWinApp)
-	//{{AFX_MSG_MAP(CSumbHtmlDirApp)
+BEGIN_MESSAGE_MAP(CThumbHtmlDirApp, CWinApp)
+	//{{AFX_MSG_MAP(CThumbHtmlDirApp)
 		// メモ - ClassWizard はこの位置にマッピング用のマクロを追加または削除します。
 		//        この位置に生成されるコードを編集しないでください。
 	//}}AFX_MSG
@@ -23,23 +23,23 @@ BEGIN_MESSAGE_MAP(CSumbHtmlDirApp, CWinApp)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CSumbHtmlDirApp クラスの構築
+// CThumbHtmlDirApp クラスの構築
 
-CSumbHtmlDirApp::CSumbHtmlDirApp()
+CThumbHtmlDirApp::CThumbHtmlDirApp()
 {
 	// TODO: この位置に構築用のコードを追加してください。
 	// ここに InitInstance 中の重要な初期化処理をすべて記述してください。
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// 唯一の CSumbHtmlDirApp オブジェクト
+// 唯一の CThumbHtmlDirApp オブジェクト
 
-CSumbHtmlDirApp theApp;
+CThumbHtmlDirApp theApp;
 
 /////////////////////////////////////////////////////////////////////////////
-// CSumbHtmlDirApp クラスの初期化
+// CThumbHtmlDirApp クラスの初期化
 
-BOOL CSumbHtmlDirApp::InitInstance()
+BOOL CThumbHtmlDirApp::InitInstance()
 {
 	// 標準的な初期化処理
 	// もしこれらの機能を使用せず、実行ファイルのサイズを小さくしたけ
@@ -52,7 +52,7 @@ BOOL CSumbHtmlDirApp::InitInstance()
 	Enable3dControlsStatic();	// MFC と静的にリンクする場合はここをコールしてください。
 #endif
 
-	CSumbHtmlDirDlg dlg;
+	CThumbHtmlDirDlg dlg;
 	m_pMainWnd = &dlg;
 	int nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
