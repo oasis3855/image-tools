@@ -1,4 +1,43 @@
 *.bak
 *.BAK
+*.tmp
+
+# Visual Studio Code
 .vscode/
+
+# Visual C++
+Debug*/
+debug*/
+*_i.c
+*_p.c
+*_h.h
+*.aps
+*.cache
+*.cachefile
+*.exp
+*.idb
+*.ilk
+*.iobj
+*.ipdb
+*.meta
+*.ncb
+*.obj
+*.opendb
+*.opensdf
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.scc
+*.sdf
+*.suo
+*.svclog
+*.tlb
+*.tlh
+*.tli
+*.user
+*.vspscc
+*.vssscc
 

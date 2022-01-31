@@ -4,6 +4,7 @@
 - [サムネイルHTML作成プログラム（Windows）](#サムネイルhtml作成プログラムwindows)
 - [画像一括リサイズ スクリプト](#画像一括リサイズ-スクリプト)
 - [Exifデータによるjpegファイル名変更（Linux）](#exifデータによるjpegファイル名変更linux)
+- [Exifデータによるjpegファイル名変更・タイムスタンプ変更（Windows）](#exifデータによるjpegファイル名変更タイムスタンプ変更windows)
 
 ### サムネイルHTML作成スクリプト（Linux）
 
@@ -33,3 +34,11 @@
 jpegファイルのExifデータを用いて、ファイルの名前を変換するツール
 
 [配布ディレクトリ renfile-exif-linux](renfile-exif-linux/)
+
+---
+### Exifデータによるjpegファイル名変更・タイムスタンプ変更（Windows）
+
+jpegファイルのExifデータを用いて、ファイルの名前を変換したり、タイムスタンプをExifデータに合わせたりするツール。 
+
+[配布ディレクトリ renfile-exif-win](renfile-exif-win/)
+
