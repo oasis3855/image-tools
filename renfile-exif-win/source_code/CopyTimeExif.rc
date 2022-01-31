@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -27,18 +27,18 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
@@ -66,7 +66,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON    DISCARDABLE     "res\\CopyTimeExif.ico"
+IDR_MAINFRAME           ICON                    "res\\CopyTimeExif.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -74,10 +74,11 @@ IDR_MAINFRAME           ICON    DISCARDABLE     "res\\CopyTimeExif.ico"
 //
 
 IDD_COPYTIMEEXIF_DIALOG DIALOGEX 0, 0, 279, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "ExifFileAutoName - EXIF 自動ファイル名変換"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x1
 BEGIN
     GROUPBOX        "JPEG ファイル、またはファイルの存在するフォルダの指定",
                     IDC_STATIC,5,5,270,65
@@ -105,10 +106,10 @@ BEGIN
 END
 
 IDD_DLG_PREVIEW DIALOGEX 0, 0, 339, 262
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CLIENTEDGE
 CAPTION "ExifFileAutoName - EXIF 自動ファイル名変換     メッセージ リーダ"
-FONT 9, "ＭＳ Ｐゴシック"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x1
 BEGIN
     CONTROL         "Close",IDOK,"Button",BS_OWNERDRAW,248,244,90,14
     EDITTEXT        IDC_EDIT_MAIN,0,0,338,240,ES_MULTILINE | ES_READONLY | 
@@ -118,7 +119,6 @@ BEGIN
 END
 
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
@@ -141,33 +141,24 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "\0"
-            VALUE "CompanyName", " \0"
-            VALUE "FileDescription", "ExifFileAutoName\0"
-            VALUE "FileVersion", "1, 0, 0, 1\0"
-            VALUE "InternalName", "ExifFileAutoName\0"
-            VALUE "LegalCopyright", "Copyright (C) 2004\0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "ExifFileAutoName.exe\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "  ExifFileAutoName\0"
-            VALUE "ProductVersion", "1, 0, 0, 1\0"
-            VALUE "SpecialBuild", "\0"
+            VALUE "CompanyName", " "
+            VALUE "FileDescription", "ExifFileAutoName"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "ExifFileAutoName"
+            VALUE "LegalCopyright", "Copyright (C) 2004"
+            VALUE "OriginalFilename", "ExifFileAutoName.exe"
+            VALUE "ProductName", "  ExifFileAutoName"
+            VALUE "ProductVersion", "1, 0, 0, 1"
         END
         BLOCK "041104b0"
         BEGIN
-            VALUE "Comments", "\0"
-            VALUE "CompanyName", "\0"
-            VALUE "FileDescription", "Exif 自動ファイル名変換\0"
-            VALUE "FileVersion", "0, 1, 0, 0\0"
-            VALUE "InternalName", "ExifFileAutoName\0"
-            VALUE "LegalCopyright", "Copyright (C) 2004 INOUE. Hirokazu\0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "ExifFileAutoName.exe\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "Exif 自動ファイル名変換\0"
-            VALUE "ProductVersion", "0, 1, 0, 0\0"
-            VALUE "SpecialBuild", "\0"
+            VALUE "FileDescription", "Exif 自動ファイル名変換"
+            VALUE "FileVersion", "0, 1, 0, 0"
+            VALUE "InternalName", "ExifFileAutoName"
+            VALUE "LegalCopyright", "Copyright (C) 2004 INOUE. Hirokazu"
+            VALUE "OriginalFilename", "ExifFileAutoName.exe"
+            VALUE "ProductName", "Exif 自動ファイル名変換"
+            VALUE "ProductVersion", "0, 1, 0, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -176,8 +167,6 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -185,7 +174,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_COPYTIMEEXIF_DIALOG, DIALOG
     BEGIN
@@ -289,21 +278,21 @@ END
 // String Table
 //
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     STR_BTN_PICKFILE        "JPEG ファイル|*.jpg;*.jpeg|全てのファイル|*.*||"
     STR_DLG_NOFILE          "ファイル名、フォルダが指定されていません"
     STR_FUNC_NOTINST        "この機能は実装されていません"
     STR_FILE_CANNOT_OPEN_RB "エラー：ファイルが読み込みモードで開けません"
-    STR_EXIF_DATA_ERR_1     "エラー：EXIFヘッダが 0xff,0xd8,0xff,0xe1 で始まっていない"
+    STR_EXIF_DATA_ERR_1     "エラー：EXIFヘッダが 0xff,0xd8,0xff,0xe1 または 0xff,0xd8,0xff,0xe0 で始まっていない"
     STR_FILE_ABNORMAL_END   "エラー：JPEGファイルが予期しない位置で読み込み不能です"
     STR_EXIF_DATA_ERR_2     "エラー：EXIFマーカーが  0x45,0x78,0x69,0x66,0x00,0x00 でない"
-    STR_EXIF_DATA_ERR_3     "エラー：TIFFマーカーが  0x49,0x49,0x2a,0x00,0x08,… でない\n（モトローラ形式の場合は本製品のサポート外）"
+    STR_EXIF_DATA_ERR_3     "エラー：TIFFマーカーが  0x49,0x49,0x2a,0x00 または 0x4d,0x4d,0x00,0x2a でない"
     STR_GETSTATUS_ERR       "ファイルのタイムスタンプが読み込めません"
     STR_SETSTATUS_ERR       "ファイル情報を書き込めません"
     STR_NO_FILE             "ファイルが存在しません"
     STR_ERR_EXCEED_FILE     "処理可能ファイル数を超えました （1000以上)"
-    STR_DLG_ABOUTBOX        "ExifFileAutoName - EXIF 自動ファイル名変換\n\n(C) 2004 INOUE. Hirokazu  All rights reserved\n\nversion 0.1 Free Software\n\nhttp://www.ne.jp/asahi/oasis/inoue-h/\nhttp://inoue-h.connect.to/"
+    STR_DLG_ABOUTBOX        "ExifFileAutoName - EXIF 自動ファイル名変換\n\n(C) 2004 INOUE. Hirokazu  All rights reserved\n\nversion 0.3 Free Software\n\nhttp://oasis.halfmoon.jp/"
     STR_DLG_DLGTITLE        "ExifFileAutoName - EXIF 自動ファイル名変換"
     LANG                    "JP"
 END
@@ -313,7 +302,7 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// 英語 (ｱﾒﾘｶ) resources
+// 英語 (米国) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 #ifdef _WIN32
@@ -327,10 +316,11 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 IDD_COPYTIMEEXIF_DIALOG DIALOGEX 0, 0, 279, 175
-STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "ExifFileAutoName - EXIF Auto File Renamer"
-FONT 9, "FixedSys"
+FONT 9, "FixedSys", 0, 0, 0x1
 BEGIN
     GROUPBOX        "JPEG File / Folder Contains JPEG Files",IDC_STATIC,5,5,
                     270,65
@@ -363,7 +353,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_COPYTIMEEXIF_DIALOG, DIALOG
     BEGIN
@@ -457,7 +447,7 @@ END
 // String Table
 //
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE 
 BEGIN
     STR_BTN_PICKFILE        "JPEG File|*.jpg;*.jpeg|All Files|*.*||"
     STR_DLG_NOFILE          "File Name / Folder Search Path is not designated"
@@ -476,7 +466,7 @@ BEGIN
     LANG                    "EN"
 END
 
-#endif    // 英語 (ｱﾒﾘｶ) resources
+#endif    // 英語 (米国) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

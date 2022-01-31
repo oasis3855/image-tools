@@ -5,6 +5,7 @@
 #include "CopyTimeExif.h"
 #include "CopyTimeExifDlg.h"
 #include "DialogMessage.h"
+#include "GlobalFunc.h"
 #include <io.h>			// findfirst
 
 #ifdef _DEBUG
@@ -328,6 +329,7 @@ void CCopyTimeExifDlg::PreviewExif(char *strPathname, char *strFilename, char *s
 {
 	CString strTmp;
 	struct exif_data exifData;
+	char strExifErrMessage[MAX_EXIF_ERR_MESSAGE_SIZE+1];
 
 	init_exif_data_struct(&exifData);
 
@@ -336,7 +338,13 @@ void CCopyTimeExifDlg::PreviewExif(char *strPathname, char *strFilename, char *s
 	strTmp = strFilename;
 	strMsg += strTmp + "\r\n";
 
-	::read_exif_data(strPathOnly, strFilename, &exifData);
+	::read_exif_data(strPathOnly, strFilename, &exifData, strExifErrMessage);
+
+	if(strlen(strExifErrMessage))
+	{	// エラーメッセージがある場合
+		strMsg = strMsg + strExifErrMessage + "\r\n";
+	}
+
 
 	strTmp.Format("  ImageDescription : %s\r\n"
 					"  Make : %s\r\n"
@@ -360,6 +368,7 @@ BOOL CCopyTimeExifDlg::ChangeDate(char *strPathname, char *strFilename, char *st
 {
 	CString strTmp;
 	struct exif_data exifData;
+	char strExifErrMessage[MAX_EXIF_ERR_MESSAGE_SIZE+1];
 	CFileStatus Fstatus;
 	CString strFullPath;
 
@@ -377,8 +386,15 @@ BOOL CCopyTimeExifDlg::ChangeDate(char *strPathname, char *strFilename, char *st
 	init_exif_data_struct(&exifData);
 
 	// EXIF 情報を読み込む
-	if(!::read_exif_data(strPathOnly, strFilename, &exifData))
+	if(!::read_exif_data(strPathOnly, strFilename, &exifData, strExifErrMessage))
+	{
+		if(strlen(strExifErrMessage))
+		{	// エラーメッセージがある場合
+			strMsg = strMsg + strExifErrMessage + "\r\n";
+		}
+
 		return FALSE;
+	}
 
 	// EXIF より時間情報を tm 構造体に代入する
 	strncpy(str_ext_raw, exifData.DateTime, 20);	// 破壊に備えてコピー
@@ -463,6 +479,7 @@ BOOL CCopyTimeExifDlg::ChangeFname(char *strPathname, char *strFilename, char *s
 {
 	CString strTmp;
 	struct exif_data exifData;
+	char strExifErrMessage[MAX_EXIF_ERR_MESSAGE_SIZE+1];
 	CFileStatus Fstatus;
 	CString strFullPath, strNewFilename, strNewFullPath;
 
@@ -483,8 +500,15 @@ BOOL CCopyTimeExifDlg::ChangeFname(char *strPathname, char *strFilename, char *s
 	init_exif_data_struct(&exifData);
 
 	// EXIF 情報を読み込む
-	if(!::read_exif_data(strPathOnly, strFilename, &exifData))
+	if(!::read_exif_data(strPathOnly, strFilename, &exifData, strExifErrMessage))
+	{
+		if(strlen(strExifErrMessage))
+		{	// エラーメッセージがある場合
+			strMsg = strMsg + strExifErrMessage + "\r\n";
+		}
+
 		return FALSE;
+	}
 
 	// EXIF より時間情報を tm 構造体に代入する
 	strncpy(str_ext_raw, exifData.DateTime, 20);	// 破壊に備えてコピー
@@ -652,442 +676,6 @@ BOOL CCopyTimeExifDlg::ChangeFname(char *strPathname, char *strFilename, char *s
 	return TRUE;
 }
 
-
-// exif_data の初期化
-void init_exif_data_struct(struct exif_data *dat)
-{
-	dat->App1Size = 0;
-	dat->IfdDirCount = 0;
-	dat->SubIfdDirCount = 0;
-	// IFD
-	strcpy(dat->ImageDescription, "");
-	strcpy(dat->Make, "");
-	strcpy(dat->Model, "");
-	dat->Orientation = 0;
-	strcpy(dat->Software, "");
-	strcpy(dat->DateTime, "");
-	strcpy(dat->Copyright, "");
-	//Sub IFD
-	dat->ExposureTime = 0;
-	dat->FNumber = 0;
-	dat->ISOSpeedRatings = 0;
-	dat->ExposureProgram = 0;
-	strcpy(dat->ExifVersion, "");
-	strcpy(dat->DateTimeOriginal, "");
-	strcpy(dat->DateTimeDigitized, "");
-	dat->ExifImageWidth = 0;
-	dat->ExifImageHeight = 0;
-}
-
-// ファイルから EXIF データを読み込む
-BOOL read_exif_data(CString strPathOnly, CString strFilename, struct exif_data *dat)
-{
-	CString strFullPath;
-	CString strTmp1;
-	char datData[2048], datData2[2048];
-	unsigned short int wordData;
-	unsigned int dwordData, dwordData2;
-	FILE *in;
-	int i;
-
-	strFullPath = strPathOnly + strFilename;
-
-	if((in = fopen((LPCSTR)strFullPath, "rb")) == NULL)
-	{	// ファイルが開けない場合
-		if(strMsg.GetLength() < 1000000)
-		{
-			strTmp1.LoadString(STR_FILE_CANNOT_OPEN_RB);
-			strMsg = strMsg + "\r\n" + strTmp1 + "\r\n";
-		}
-		return FALSE;
-	}
-
-	// CHECK EXIF HEADER
-	if(fread(datData, 1, 4, in) < 4)
-	{
-		if(strMsg.GetLength() < 1000000)
-		{
-			strTmp1.LoadString(STR_FILE_ABNORMAL_END);
-			strMsg = strMsg + "\r\n" + strTmp1+ "\r\n";
-		}
-		fclose(in);
-		return FALSE;
-	}
-	datData2[0] = (char)0xff;
-	datData2[1] = (char)0xd8;
-	datData2[2] = (char)0xff;
-	datData2[3] = (char)0xe1;
-	if(!CheckBinaryData(datData, datData2, 4))
-	{	// EXIF ヘッダの開始値が異常
-		if(strMsg.GetLength() < 1000000)
-		{
-			strTmp1.LoadString(STR_EXIF_DATA_ERR_1);
-			strMsg = strMsg + "\r\n" + strTmp1+ "\r\n";
-		}
-		fclose(in);
-		return FALSE;
-	}
-
-	// APP1 SIZE
-	if(fread(&wordData, 2, 1, in) < 1)
-	{	// 読み込み不能のとき
-		if(strMsg.GetLength() < 1000000)
-		{
-			strTmp1.LoadString(STR_FILE_ABNORMAL_END);
-			strMsg = strMsg + "\r\n" + strTmp1+ "\r\n";
-		}
-		fclose(in);
-		return FALSE;
-	}
-	dat->App1Size = wordData;
-
-	// CHECK EXIF HEADER
-	if(fread(datData, 1, 6, in) < 6)
-	{
-		if(strMsg.GetLength() < 1000000)
-		{
-			strTmp1.LoadString(STR_FILE_ABNORMAL_END);
-			strMsg = strMsg + "\r\n" + strTmp1+ "\r\n";
-		}
-		fclose(in);
-		return FALSE;
-	}
-	datData2[0] = (char)0x45;	// E
-	datData2[1] = (char)0x78;	// x
-	datData2[2] = (char)0x69;	// i
-	datData2[3] = (char)0x66;	// f
-	datData2[4] = (char)0;
-	datData2[5] = (char)0;
-	if(!CheckBinaryData(datData, datData2, 6))
-	{	// EXIF マーカー値が異常
-		if(strMsg.GetLength() < 1000000)
-		{
-			strTmp1.LoadString(STR_EXIF_DATA_ERR_2);
-			strMsg = strMsg + "\r\n" + strTmp1+ "\r\n";
-		}
-		fclose(in);
-		return FALSE;
-	}
-
-	// CHECK TIFF HEADER
-	if(fread(datData, 1, 8, in) < 8)
-	{
-		if(strMsg.GetLength() < 1000000)
-		{
-			strTmp1.LoadString(STR_FILE_ABNORMAL_END);
-			strMsg = strMsg + "\r\n" + strTmp1+ "\r\n";
-		}
-		fclose(in);
-		return FALSE;
-	}
-	datData2[0] = (char)0x49;	// I (Intel) , (if Motorola 'M')
-	datData2[1] = (char)0x49;	// I (Intel) , (if Motorola 'M')
-	datData2[2] = (char)0x2a;	// (if Motorola 0x00)
-	datData2[3] = (char)0x00;	// (if Motorola 0x2a)
-	datData2[4] = (char)0x08;
-	datData2[5] = (char)0;
-	datData2[6] = (char)0;
-	datData2[7] = (char)0;
-	if(!CheckBinaryData(datData, datData2, 8))
-	{	// TIFF マーカー値が異常
-		if(strMsg.GetLength() < 1000000)
-		{
-			strTmp1.LoadString(STR_EXIF_DATA_ERR_3);
-			strMsg = strMsg + "\r\n" + strTmp1+ "\r\n";
-		}
-		fclose(in);
-		return FALSE;
-	}
-
-	// Exif IFD Directry Entries Count
-	if(fread(&wordData, 2, 1, in) < 1)
-	{
-		if(strMsg.GetLength() < 1000000)
-		{
-			strTmp1.LoadString(STR_FILE_ABNORMAL_END);
-			strMsg = strMsg + "\r\n" + strTmp1+ "\r\n";
-		}
-		fclose(in);
-		return FALSE;
-	}
-	dat->IfdDirCount = wordData;
-
-
-	// Pharse IFD Data
-	unsigned short int ifd_TagID, ifd_Format;
-	unsigned int ifd_DataCount, ifd_Data;
-	long cur_filepoint, ifd_SubPtr = 0;
-
-	cur_filepoint = ftell(in);
-
-	for(i=0; i<dat->IfdDirCount; i++)
-	{
-		if(fseek(in, cur_filepoint, SEEK_SET))
-		{
-			if(strMsg.GetLength() < 1000000)
-			{
-				strTmp1.LoadString(STR_FILE_ABNORMAL_END);
-				strMsg = strMsg + "\r\n" + strTmp1+ "\r\n";
-			}
-			fclose(in);
-			return FALSE;
-		}
-
-		fread(&wordData, 2, 1, in);
-		ifd_TagID = wordData;
-		fread(&wordData, 2, 1, in);
-		ifd_Format = wordData;
-		fread(&dwordData, 4, 1, in);
-		ifd_DataCount = dwordData;
-		if(fread(&dwordData, 4, 1, in) < 1)
-		{	// 読み込みエラー
-			if(strMsg.GetLength() < 1000000)
-			{
-				strTmp1.LoadString(STR_FILE_ABNORMAL_END);
-				strMsg = strMsg + "\r\n" + strTmp1+ "\r\n";
-			}
-			fclose(in);
-			return FALSE;
-		}
-		ifd_Data = dwordData;
-
-		cur_filepoint = ftell(in);		// ファイルポインタの移動に備えて保存
-
-		// TagIDにしたがって、データを読み出す。
-		// データオフセットは "II" の位置から。(0x0c)
-		switch(ifd_TagID)
-		{
-		case 0x010e :
-			if(ifd_Format != 2) break;
-			fseek(in, 0x0c + ifd_Data, SEEK_SET);
-			fread(datData, 1, ifd_DataCount, in);
-			datData[ifd_DataCount] = (char)0;
-			strncpy(dat->ImageDescription, datData, 254);
-			break;
-		case 0x010f :
-			if(ifd_Format != 2) break;
-			fseek(in, 0x0c + ifd_Data, SEEK_SET);
-			fread(datData, 1, ifd_DataCount, in);
-			datData[ifd_DataCount] = (char)0;
-			strncpy(dat->Make, datData, 254);
-			break;
-		case 0x0110 :
-			if(ifd_Format != 2) break;
-			fseek(in, 0x0c + ifd_Data, SEEK_SET);
-			fread(datData, 1, ifd_DataCount, in);
-			datData[ifd_DataCount] = (char)0;
-			strncpy(dat->Model, datData, 254);
-			break;
-		case 0x0112 :
-			if(ifd_Format != 3) break;
-			dat->Orientation = ifd_Data;
-			break;
-		case 0x0131 :
-			if(ifd_Format != 2) break;
-			fseek(in, 0x0c + ifd_Data, SEEK_SET);
-			fread(datData, 1, ifd_DataCount, in);
-			datData[ifd_DataCount] = (char)0;
-			strncpy(dat->Software, datData, 254);
-			break;
-		case 0x0132 :
-			if(ifd_Format != 2) break;
-			fseek(in, 0x0c + ifd_Data, SEEK_SET);
-			fread(datData, 1, ifd_DataCount, in);
-			datData[ifd_DataCount] = (char)0;
-			strncpy(dat->DateTime, datData, 20);
-			break;
-		case 0x8298 :
-			if(ifd_Format != 2) break;
-			fseek(in, 0x0c + ifd_Data, SEEK_SET);
-			fread(datData, 1, ifd_DataCount, in);
-			datData[ifd_DataCount] = (char)0;
-			strncpy(dat->Copyright, datData, 20);
-			break;
-		case 0x8769 :		// Exif SUB IFD が存在する場合、ポインタを得る
-			if(ifd_Format != 4) break;
-			ifd_SubPtr = ifd_Data;
-			break;
-		}
-
-
-
-	}
-
-	// Sub IFD の読み込み
-	if(ifd_SubPtr)
-	{
-		if(fseek(in, 0x0c + ifd_SubPtr, SEEK_SET))
-		{
-			if(strMsg.GetLength() < 1000000)
-			{
-				strTmp1.LoadString(STR_FILE_ABNORMAL_END);
-				strMsg = strMsg + "\r\n" + strTmp1+ "\r\n";
-			}
-			fclose(in);
-			return FALSE;
-		}
-
-		// Exif IFD Directry Entries Count
-		fread(&wordData, 2, 1, in);
-		dat->SubIfdDirCount = wordData;
-
-		cur_filepoint = ftell(in);
-
-		for(i=0; i<dat->SubIfdDirCount; i++)
-		{
-			fseek(in, cur_filepoint, SEEK_SET);
-
-			fread(&wordData, 2, 1, in);
-			ifd_TagID = wordData;
-			fread(&wordData, 2, 1, in);
-			ifd_Format = wordData;
-			fread(&dwordData, 4, 1, in);
-			ifd_DataCount = dwordData;
-			if(fread(&dwordData, 4, 1, in) < 1)
-			{	// 読み込みエラー
-				if(strMsg.GetLength() < 1000000)
-				{
-					strTmp1.LoadString(STR_FILE_ABNORMAL_END);
-					strMsg = strMsg + "\r\n" + strTmp1+ "\r\n";
-				}
-				fclose(in);
-				return FALSE;
-			}
-			ifd_Data = dwordData;
-
-			cur_filepoint = ftell(in);		// ファイルポインタの移動に備えて保存
-
-			// TagIDにしたがって、データを読み出す。
-			// データオフセットは "II" の位置から。(0x0c)
-
-			switch(ifd_TagID)
-			{
-			case 0x829a :
-				if(ifd_Format != 5) break;
-				fseek(in, 0x0c + ifd_Data, SEEK_SET);
-				fread(&dwordData, 4, 1, in);	// 分子
-				fread(&dwordData2, 4, 1, in);	// 分母
-				if(dwordData == 0) break;	// ゼロ除算回避
-				dat->ExposureTime = (double)dwordData2 / (double)dwordData; // 1/n の n を格納
-				break;
-			case 0x829d :
-				if(ifd_Format != 5) break;
-				fseek(in, 0x0c + ifd_Data, SEEK_SET);
-				fread(&dwordData, 4, 1, in);	// 分子
-				fread(&dwordData2, 4, 1, in);	// 分母
-				if(dwordData2 == 0) break;	// ゼロ除算回避
-				dat->FNumber = (double)dwordData / (double)dwordData2;
-				break;
-			case 0x8827 :
-				if(ifd_Format != 3) break;
-				dat->ISOSpeedRatings = ifd_Data;
-				break;
-			case 0x8822 :
-				if(ifd_Format != 3) break;
-				dat->ExposureProgram = ifd_Data;
-				break;
-			case 0x9000 :
-				if(ifd_Format != 7) break;
-				fseek(in, -4, SEEK_CUR);
-				fread(datData, 1, 4, in);
-				datData[4] = (char)0;
-				strncpy(dat->ExifVersion, datData, 4);
-				break;
-			case 0x9003 :
-				if(ifd_Format != 2) break;
-				fseek(in, 0x0c + ifd_Data, SEEK_SET);
-				fread(datData, 1, ifd_DataCount, in);
-				datData[ifd_DataCount] = (char)0;
-				strncpy(dat->DateTimeOriginal, datData, 20);
-				break;
-			case 0x9004 :
-				if(ifd_Format != 2) break;
-				fseek(in, 0x0c + ifd_Data, SEEK_SET);
-				fread(datData, 1, ifd_DataCount, in);
-				datData[ifd_DataCount] = (char)0;
-				strncpy(dat->DateTimeDigitized, datData, 20);
-				break;
-			case 0xa002 :
-				if(ifd_Format == 3) 
-					dat->ExifImageWidth = (unsigned short)ifd_Data;
-				if(ifd_Format == 4) 
-					dat->ExifImageWidth = ifd_Data;
-				break;
-			case 0xa003 :
-				if(ifd_Format == 3) 
-					dat->ExifImageHeight = (unsigned short)ifd_Data;
-				if(ifd_Format == 4) 
-					dat->ExifImageHeight = ifd_Data;
-				break;
-			}
-		}
-
-	}
-
-	fclose(in);
-
-	return TRUE;
-}
-
-// バイナリデータに不一致がある場合、FALSE を返す
-BOOL CheckBinaryData(char *data1, char *data2, long size)
-{
-	long i;
-
-	for(i=0; i<size; i++)
-	{
-		if(data1[i] != data2[i]) return FALSE;
-	}
-	return TRUE;
-}
-
-
-// **********************************
-// ソーティング
-// **********************************
-void SortArray(_fstr *fstrPathArray, int nFileCount, int nMode)
-{
-	int i, j;
-	CString strTmp;
-
-	////////////////////////
-	// ソートモードを切り替える
-	////////////////////////
-	if(nMode == 0)
-	{	// ファイル名でソート（昇順）
-		for(i=0; i<nFileCount; i++)
-		{
-			for(j=i; j<nFileCount; j++)
-			{
-				if(stricmp((const char*)fstrPathArray[i].str, (const char*)fstrPathArray[j].str) > 0)
-				{
-					// ファイル名の交換
-					strTmp = fstrPathArray[i].str;
-					strcpy(fstrPathArray[i].str, fstrPathArray[j].str);
-					strcpy(fstrPathArray[j].str, strTmp);
-				}
-			}
-		}
-	}
-	else if(nMode == 1)
-	{	// ファイル名でソート（降順）
-		for(i=0; i<nFileCount; i++)
-		{
-			for(j=i; j<nFileCount; j++)
-			{
-				if(stricmp((const char*)fstrPathArray[i].str, (const char*)fstrPathArray[j].str) < 0)
-				{
-					// ファイル名の交換
-					strTmp = fstrPathArray[i].str;
-					strcpy(fstrPathArray[i].str, fstrPathArray[j].str);
-					strcpy(fstrPathArray[j].str, strTmp);
-				}
-			}
-		}
-	}
-}
-
-
 void CCopyTimeExifDlg::OnBtnAbout() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
@@ -1098,3 +686,4 @@ void CCopyTimeExifDlg::OnBtnAbout()
 
 	MessageBox(strTmp2, strTmp1, MB_OK|MB_ICONINFORMATION);
 }
+

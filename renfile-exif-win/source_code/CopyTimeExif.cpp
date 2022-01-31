@@ -46,25 +46,20 @@ BOOL CCopyTimeExifApp::InitInstance()
 	//  れば以下の特定の初期化ルーチンの中から不必要なものを削除して
 	//  ください。
 
+	InitCommonControls();
+
+	CWinApp::InitInstance();
+
+
 #ifdef _AFXDLL
-	Enable3dControls();			// 共有 DLL 内で MFC を使う場合はここをコールしてください。
+//	Enable3dControls();			// 共有 DLL 内で MFC を使う場合はここをコールしてください。
 #else
-	Enable3dControlsStatic();	// MFC と静的にリンクする場合はここをコールしてください。
+//	Enable3dControlsStatic();	// MFC と静的にリンクする場合はここをコールしてください。
 #endif
 
 	CCopyTimeExifDlg dlg;
 	m_pMainWnd = &dlg;
-	int nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
-		// TODO: ダイアログが <OK> で消された時のコードを
-		//       記述してください。
-	}
-	else if (nResponse == IDCANCEL)
-	{
-		// TODO: ダイアログが <ｷｬﾝｾﾙ> で消された時のコードを
-		//       記述してください。
-	}
+	dlg.DoModal();
 
 	// ダイアログが閉じられてからアプリケーションのメッセージ ポンプを開始するよりは、
 	// アプリケーションを終了するために FALSE を返してください。
