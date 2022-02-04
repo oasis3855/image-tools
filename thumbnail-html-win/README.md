@@ -1,7 +1,11 @@
-サムネイルHTML作成
+サムネイルHTML作成<br />
 Thumbnail HTML creation software for Windows
 
 ---
+[Home](https://oasis3855.github.io/webpage/) > [Software](https://oasis3855.github.io/webpage/software/index.html) > [Software Download](https://oasis3855.github.io/webpage/software/software-download.html) > ***thumbnail-html-windows*** (this page)
+
+<br />
+<br />
 
 - [機能の概略](#機能の概略)
 - [動作環境](#動作環境)
@@ -12,6 +16,8 @@ Thumbnail HTML creation software for Windows
 - [バージョン履歴](#バージョン履歴)
 - [ライセンス](#ライセンス)
 
+<br />
+<br />
 
 ## 機能の概略
 フォルダにまとめられた画像ファイルのサムネイルHTMLを作成できます
@@ -188,4 +194,6 @@ Thumbnail HTML creation software for Windows
 
 ## ライセンス
 
-このスクリプトは [GNU General Public License v3ライセンスで公開する](https://gpl.mhatta.org/gpl.ja.html) フリーソフトウエア
+このソフトウエアは [GNU General Public License v3ライセンスで公開する](https://gpl.mhatta.org/gpl.ja.html) フリーソフトウエア
+
+※ 配布ソースコード等に書かれているライセンス条項は撤回し、上述GNU General Public License v3ライセンスにて配布する。

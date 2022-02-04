@@ -1,7 +1,11 @@
-サムネイルHTML作成スクリプト
+サムネイルHTML作成スクリプト<br />
 Thumbnail HTML creation software for Linux and BSD
 
 ---
+[Home](https://oasis3855.github.io/webpage/) > [Software](https://oasis3855.github.io/webpage/software/index.html) > [Software Download](https://oasis3855.github.io/webpage/software/software-download.html) > ***thumbnail-html-linux*** (this page)
+
+<br />
+<br />
 
 - [機能の概要](#機能の概要)
   - [指定したディレクトリ内の画像ファイル一覧のサムネイルHTMLを作成する](#指定したディレクトリ内の画像ファイル一覧のサムネイルhtmlを作成する)
@@ -15,6 +19,9 @@ Thumbnail HTML creation software for Linux and BSD
 - [インストール方法](#インストール方法)
 - [バージョン履歴](#バージョン履歴)
 - [ライセンス](#ライセンス)
+
+<br />
+<br />
 
 ## 機能の概要
 
