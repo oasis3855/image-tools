@@ -1,12 +1,14 @@
-サムネイルHTML作成スクリプト<br />
-Thumbnail HTML creation software for Linux and BSD
+## サムネイルHTML作成スクリプト<br />Thumbnail HTML creation software for Linux and BSD<!-- omit in toc -->
 
----
-[Home](https://oasis3855.github.io/webpage/) > [Software](https://oasis3855.github.io/webpage/software/index.html) > [Software Download](https://oasis3855.github.io/webpage/software/software-download.html) > ***thumbnail-html-linux*** (this page)
+
+[Home](https://oasis3855.github.io/webpage/) > [Software](https://oasis3855.github.io/webpage/software/index.html) > [Software Download](https://oasis3855.github.io/webpage/software/software-download.html) > [image-tools](../README.md) > ***thumbnail-html*** (this page)
 
 <br />
 <br />
 
+Last Updated : Jan. 2012
+
+- [ソフトウエアのダウンロード](#ソフトウエアのダウンロード)
 - [機能の概要](#機能の概要)
   - [指定したディレクトリ内の画像ファイル一覧のサムネイルHTMLを作成する](#指定したディレクトリ内の画像ファイル一覧のサムネイルhtmlを作成する)
   - [指定したディレクトリ内の「すべてのサブディレクトリ」の見出し的サムネイルHTMLを作成する機能](#指定したディレクトリ内のすべてのサブディレクトリの見出し的サムネイルhtmlを作成する機能)
@@ -22,6 +24,12 @@ Thumbnail HTML creation software for Linux and BSD
 
 <br />
 <br />
+
+## ソフトウエアのダウンロード
+
+- ![download icon](../readme_pics/soft-ico-download-darkmode.gif)   [このGitHubリポジトリを参照する](../thumbnail-html/) 
+
+- ![download icon](../readme_pics/soft-ico-download-darkmode.gif)   [Google Codeよりダウンロード](https://code.google.com/archive/p/thumbnail-html/downloads)（バックアップ サイト 2015年8月更新停止） 
 
 ## 機能の概要
 

@@ -1,12 +1,15 @@
-Exifデータによるjpegファイル名変更 Perlスクリプト<br/>
-Manipulate jpeg file name renamer by Exif data   for Linux and BSD
+## Exifデータによるjpegファイル名変更 Perlスクリプト<br/>Manipulate jpeg file name renamer by Exif data   for Linux and BSD<!-- omit in toc -->
 
 ---
-[Home](https://oasis3855.github.io/webpage/) > [Software](https://oasis3855.github.io/webpage/software/index.html) > [Software Download](https://oasis3855.github.io/webpage/software/software-download.html) > ***renfile-exif-linux*** (this page)
+[Home](https://oasis3855.github.io/webpage/) > [Software](https://oasis3855.github.io/webpage/software/index.html) > [Software Download](https://oasis3855.github.io/webpage/software/software-download.html) > [image-tools](../README.md) > ***renfile-exif-linux*** (this page)
 
 <br />
 <br />
 
+Last Updated : Jan. 2011
+
+
+- [ソフトウエアのダウンロード](#ソフトウエアのダウンロード)
 - [機能の概要](#機能の概要)
   - [GUI モード](#gui-モード)
   - [コンソール モード](#コンソール-モード)
@@ -16,6 +19,12 @@ Manipulate jpeg file name renamer by Exif data   for Linux and BSD
 
 <br />
 <br />
+
+## ソフトウエアのダウンロード
+
+- ![download icon](../readme_pics/soft-ico-download-darkmode.gif)   [このGitHubリポジトリを参照する](../renfile-exif-linux/) 
+
+- ![download icon](../readme_pics/soft-ico-download-darkmode.gif)   [OSDNを参照する](https://ja.osdn.net/projects/renfile-exif/) （バックアップ サイト 2011年1月で更新停止） 
 
 
 ## 機能の概要

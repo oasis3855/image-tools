@@ -1,12 +1,21 @@
-画像一括リサイズ スクリプト（サムネイルHTMLのCSV読込対応も可）
-Image Resizer, Perl Script
+## 画像一括リサイズ スクリプト（サムネイルHTMLのCSV読込対応も可）<br />Image Resizer, Perl Script<!-- omit in toc -->
 
----
+[Home](https://oasis3855.github.io/webpage/) > [Software](https://oasis3855.github.io/webpage/software/index.html) > [Software Download](https://oasis3855.github.io/webpage/software/software-download.html) > [image-tools](../README.md) > ***image-resize*** (this page)
 
+<br />
+<br />
+
+Last Updated : Jul. 2011
+
+- [ソフトウエアのダウンロード](#ソフトウエアのダウンロード)
 - [機能の概要](#機能の概要)
 - [依存関係](#依存関係)
 - [バージョン履歴](#バージョン履歴)
 - [ライセンス](#ライセンス)
+
+## ソフトウエアのダウンロード
+
+- ![download icon](../readme_pics/soft-ico-download-darkmode.gif)   [このGitHubリポジトリを参照する](../image-resize/) 
 
 ## 機能の概要
 

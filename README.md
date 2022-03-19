@@ -1,10 +1,11 @@
-画像ファイルの関連処理プログラム<br />
-Image Tools
+## 画像ファイルの関連処理プログラム<br />Image Tools<!-- omit in toc -->
 
 [Home](https://oasis3855.github.io/webpage/) > [Software](https://oasis3855.github.io/webpage/software/index.html) > [Software Download](https://oasis3855.github.io/webpage/software/software-download.html) > ***image-tools*** (this page)
 
 <br />
 <br />
+
+Last Updated : Jan. 2012
 
 - [サムネイルHTML作成スクリプト（Linux）](#サムネイルhtml作成スクリプトlinux)
 - [サムネイルHTML作成プログラム（Windows）](#サムネイルhtml作成プログラムwindows)
@@ -15,39 +16,49 @@ Image Tools
 <br />
 <br />
 
-### サムネイルHTML作成スクリプト（Linux）
+## サムネイルHTML作成スクリプト（Linux）
 
 画像ファイル（デジタルカメラの写真画像）のサムネイルHTMLファイルを作るLinux向けPerlスクリプト
 
-[配布ディレクトリ thumbnail-html](thumbnail-html/)
+[ソフトウエアのダウンロードおよびドキュメントは thumbnail-html](thumbnail-html/README.md) (2012/01/14)
 
----
-### サムネイルHTML作成プログラム（Windows）
+<br />
+<br />
+
+## サムネイルHTML作成プログラム（Windows）
 
 画像ファイル（デジタルカメラの写真画像）のサムネイルHTMLファイルを作るWindowsプログラム
 
 このプログラムの更新は中断し、新たな機能は「サムネイルHTML作成スクリプト（Linux）」に追加しています
 
-[配布ディレクトリ thumbnail-html-win](thumbnail-html-win/)
+[ソフトウエアのダウンロードおよびドキュメントは thumbnail-html-win](thumbnail-html-win/README.md) (2003/05/11)
 
----
-### 画像一括リサイズ スクリプト
+<br />
+<br />
+
+## 画像一括リサイズ スクリプト
 
 画像を一括リサイズして、別ディレクトリに書き出すLinuxスクリプト
 
-[配布ディレクトリ image-resize](image-resize/)
+[ソフトウエアのダウンロードおよびドキュメントは image-resize](image-resize/README.md) (2011/07/20)
 
----
-### Exifデータによるjpegファイル名変更（Linux）
+<br />
+<br />
+
+## Exifデータによるjpegファイル名変更（Linux）
 
 jpegファイルのExifデータを用いて、ファイルの名前を変換するツール
 
-[配布ディレクトリ renfile-exif-linux](renfile-exif-linux/)
+[ソフトウエアのダウンロードおよびドキュメントは renfile-exif-linux](renfile-exif-linux/README.md) (2011/01/07)
 
----
-### Exifデータによるjpegファイル名変更・タイムスタンプ変更（Windows）
+<br />
+<br />
+
+## Exifデータによるjpegファイル名変更・タイムスタンプ変更（Windows）
 
 jpegファイルのExifデータを用いて、ファイルの名前を変換したり、タイムスタンプをExifデータに合わせたりするツール。 
 
-[配布ディレクトリ renfile-exif-win](renfile-exif-win/)
+[ソフトウエアのダウンロードおよびドキュメントは renfile-exif-win](renfile-exif-win/README.md) (2007/08/27)
 
+<br />
+<br />

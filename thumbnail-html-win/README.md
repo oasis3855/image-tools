@@ -1,12 +1,15 @@
-サムネイルHTML作成<br />
-Thumbnail HTML creation software for Windows
+## サムネイルHTML作成<br />Thumbnail HTML creation software for Windows<!-- omit in toc -->
 
----
-[Home](https://oasis3855.github.io/webpage/) > [Software](https://oasis3855.github.io/webpage/software/index.html) > [Software Download](https://oasis3855.github.io/webpage/software/software-download.html) > ***thumbnail-html-windows*** (this page)
+
+[Home](https://oasis3855.github.io/webpage/) > [Software](https://oasis3855.github.io/webpage/software/index.html) > [Software Download](https://oasis3855.github.io/webpage/software/software-download.html) > [image-tools](../README.md) > ***thumbnail-html-win*** (this page)
 
 <br />
 <br />
 
+Last Updated : May. 2003 -- ***this is discontinued software 開発終了***
+
+
+- [ソフトウエアのダウンロード](#ソフトウエアのダウンロード)
 - [機能の概略](#機能の概略)
 - [動作環境](#動作環境)
 - [インストール](#インストール)
@@ -18,6 +21,11 @@ Thumbnail HTML creation software for Windows
 
 <br />
 <br />
+
+## ソフトウエアのダウンロード
+
+- ![download icon](../readme_pics/soft-ico-download-darkmode.gif)   [このGitHubリポジトリを参照する](../thumbnail-html-win/) 
+
 
 ## 機能の概略
 フォルダにまとめられた画像ファイルのサムネイルHTMLを作成できます
