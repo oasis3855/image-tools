@@ -1,0 +1,16 @@
+// MAKEHELP.BAT が生成したヘルプ マップ ファイル は J6ICNV.HPJ で使われます。 
+ 
+// コマンド (ID_* and IDM_*) 
+HIDM_ABOUTBOX                           0x10010
+ 
+// プロンプト (IDP_*) 
+ 
+// リソース (IDR_*) 
+HIDR_MAINFRAME                          0x20080
+ 
+// ダイアログ (IDD_*) 
+HIDD_ABOUTBOX                           0x20064
+HIDD_J6ICNV_DIALOG                      0x20066
+HIDD_DLG_PROF                           0x20081
+ 
+// フレーム コントロール (IDW_*) 

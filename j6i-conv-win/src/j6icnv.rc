@@ -1,0 +1,249 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 17, 1\r\n"
+    "#pragma code_page(932)\r\n"
+    "#endif\r\n"
+    "#include ""res\\j6icnv.rc2""  // Microsoft Visual C++ 以外のツールで編集されたリソース\r\n"
+    "#include ""l.jpn\\afxres.rc""          // 標準のコンポーネント\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\idr_main.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 194, 115
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "j6icnv について"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,18,20
+    CTEXT           "j6iCnv ｱﾌﾟﾘｹｰｼｮﾝ\nversion 1.0 for Windows95",IDC_STATIC,
+                    40,10,119,20,SS_NOPREFIX
+    CTEXT           "(C) 1997 INOUE. Hirokazu\n\ninoue-h@mailhost.net\ngdh03306@niftyserve.or.jp\n\nこのﾌﾟﾛｸﾞﾗﾑはﾌﾘｰｳｴｱです。",
+                    IDC_STATIC,40,35,119,55
+    DEFPUSHBUTTON   "OK",IDOK,62,95,65,15,WS_GROUP
+END
+
+IDD_J6ICNV_DIALOG DIALOGEX 0, 0, 211, 147
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "J6I ｲﾒｰｼﾞｺﾝﾊﾞｰﾀ"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    EDITTEXT        IDC_TXT_FNAME,10,5,120,15,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_STATICEDGE
+    PUSHBUTTON      "ﾌｧｲﾙの選択",IDC_BTN_SEL,140,5,60,15
+    PUSHBUTTON      "ｺﾝﾊﾞｰﾄ (変換)",IDC_BTN_CNV,140,25,60,15
+    PUSHBUTTON      "連続ｺﾝﾊﾞｰﾄ",IDC_BTN_SEQ,140,45,60,15
+    PUSHBUTTON      "画像表示",IDC_BTN_SHW,140,65,60,15
+    PUSHBUTTON      "機能設定",IDC_BTN_PROF,140,85,60,15
+    PUSHBUTTON      "ﾍﾙﾌﾟ",ID_HELP,140,105,60,15
+    DEFPUSHBUTTON   "閉じる",IDOK,140,125,60,15
+    EDITTEXT        IDC_TXT_MES,10,25,120,95,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_READONLY | ES_WANTRETURN | NOT 
+                    WS_BORDER | WS_VSCROLL | NOT WS_TABSTOP,WS_EX_STATICEDGE
+END
+
+IDD_DLG_PROF DIALOGEX 0, 0, 211, 185
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "機能の設定"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    CONTROL         "JPGﾌｧｲﾙ上書きの時に確認する",IDC_CHK_OVWR,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,5,5,125,15
+    CONTROL         "ｴｸｽﾌﾟﾛｰﾗから開く時、画像表示まで行う",IDC_CHK_PARAMVW,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,25,170,15
+    CONTROL         "このﾌｫﾙﾀﾞに出力する",IDC_CHK_OUTPUT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,10,55,125,15
+    PUSHBUTTON      "参照",IDC_BTN_OUTPUT,140,75,55,15
+    PUSHBUTTON      "参照",IDC_BTN_EXT,140,135,55,15
+    DEFPUSHBUTTON   "OK",IDOK,45,165,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,100,165,50,14
+    PUSHBUTTON      "ﾍﾙﾌﾟ",ID_HELP,155,165,50,14
+    CONTROL         "JPG 表示に外部ﾌﾟﾛｸﾞﾗﾑを使う",IDC_CHK_EXT,"Button",
+                    BS_AUTOCHECKBOX | WS_DISABLED,5,100,125,15
+    GROUPBOX        "JPG 表示の外部ﾌﾟﾛｸﾞﾗﾑ名",IDC_STATIC,5,120,200,40
+    EDITTEXT        IDC_TXT_EXT,10,135,125,15,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_STATICEDGE
+    GROUPBOX        "JPGﾌｧｲﾙの出力ﾌｫﾙﾀﾞ",IDC_STATIC,5,45,200,55
+    EDITTEXT        IDC_TXT_OUTPUT,10,75,125,15,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_STATICEDGE
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041104b0"
+        BEGIN
+            VALUE "Comments", "J6I image file convert to JPG\0"
+            VALUE "CompanyName", "hi soft\0"
+            VALUE "FileDescription", "j6iCnv for win95\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "j6iCnv\0"
+            VALUE "LegalCopyright", "Copyright (C) 1997 INOUE. Hirokazu\0"
+            VALUE "OriginalFilename", "j6icnv.exe\0"
+            VALUE "ProductName", "j6iCnv for win95\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 187
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 108
+    END
+
+    IDD_J6ICNV_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 204
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 140
+    END
+
+    IDD_DLG_PROF, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 204
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 178
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "ﾊﾞｰｼﾞｮﾝ情報 (&A)..."
+END
+
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE 17, 1
+#pragma code_page(932)
+#endif
+#include "res\j6icnv.rc2"  // Microsoft Visual C++ 以外のツールで編集されたリソース
+#include "l.jpn\afxres.rc"          // 標準のコンポーネント
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
