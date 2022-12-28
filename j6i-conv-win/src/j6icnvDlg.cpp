@@ -1,13 +1,15 @@
 // j6icnvDlg.cpp : インプリメンテーション ファイル
-// メインダイアログ
+// メインダイアログ および バージョン情報ダイアログ
 
 #include "stdafx.h"
 #include "j6icnv.h"
 #include "j6icnvDlg.h"
 #include "j6iProfDlg.h"
+#include "GlobalFunc.h"
 #include <stdio.h>
 #include <process.h>	// spawn
 #include <io.h>			// findfirst
+#include <shlobj.h>		// フォルダ共通ダイアログ
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -15,20 +17,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
-// ************************************************
-// グローバル関数
-// ************************************************
-
-// BCD 数値を与えると通常の数値に直して返す
-unsigned int BCDtoINT(unsigned char bcd)
-{
-	unsigned int i,j;
-	i = bcd;
-	j = ((i & 0xf0) >> 4) * 10;
-	j += bcd & 0x0f;
-	return j;
-}
 
 // ************************************************
 // バージョン情報ダイアログ
@@ -61,17 +49,25 @@ CJ6icnvDlg::CJ6icnvDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CJ6icnvDlg::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(CJ6icnvDlg)
-		// メモ: この位置に ClassWizard によってメンバの初期化が追加されます。
+	m_chk_year = FALSE;
+	m_txt_year = 0;
 	//}}AFX_DATA_INIT
 	// メモ: LoadIcon は Win32 の DestroyIcon のサブシーケンスを要求しません。
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	theApp = (CJ6icnvApp *)AfxGetApp();
+	m_last_j6i_file = "";
 }
 
 void CJ6icnvDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CJ6icnvDlg)
-		// メモ: この場所には ClassWizard によって DDX と DDV の呼び出しが追加されます。
+	DDX_Control(pDX, IDC_TXT_MES, m_txt_mes_ctrl);
+	DDX_Control(pDX, IDC_CHK_YEAR, m_chk_year_ctrl);
+	DDX_Control(pDX, IDC_TXT_YEAR, m_txt_year_ctrl);
+	DDX_Check(pDX, IDC_CHK_YEAR, m_chk_year);
+	DDX_Text(pDX, IDC_TXT_YEAR, m_txt_year);
+	DDV_MinMaxUInt(pDX, m_txt_year, 1900, 2030);
 	//}}AFX_DATA_MAP
 }
 
@@ -85,7 +81,11 @@ BEGIN_MESSAGE_MAP(CJ6icnvDlg, CDialog)
 	ON_BN_CLICKED(IDC_BTN_CNV, OnBtnCnv)
 	ON_BN_CLICKED(IDC_BTN_PROF, OnBtnProf)
 	ON_BN_CLICKED(IDC_BTN_SHW, OnBtnShw)
-	ON_BN_CLICKED(IDC_BTN_SEQ, OnBtnSeq)
+	ON_BN_CLICKED(IDC_CHK_YEAR, OnChkYear)
+	ON_EN_CHANGE(IDC_TXT_YEAR, OnChangeTxtYear)
+	ON_BN_CLICKED(IDC_RADIO_SELMODE_1, OnRadioSelmode1)
+	ON_BN_CLICKED(IDC_RADIO_SELMODE_2, OnRadioSelmode2)
+	ON_WM_VSCROLL()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -117,31 +117,59 @@ BOOL CJ6icnvDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 小さいアイコンを設定
 	
 	// TODO: 特別な初期化を行う時はこの場所に追加してください。
+	CString SrcFname;	// 入力ファイル名（ダイアログ項目から取得する）
+	CString DstPath;	// 出力ファイル名（パス）
+	CString DstFname;	// 出力ファイル名（パス）
+	CString FnameBody;	// 拡張子なしのファイル名
 
-	// レジストリからデータを読み込む
-	is_confirm_overwrite = AfxGetApp()->GetProfileInt("Settings","cnf_ovwr",1);
-	is_use_ext_viewer = AfxGetApp()->GetProfileInt("Settings","use_extvw",0);
-	is_param_vw = AfxGetApp()->GetProfileInt("Settings","param_vw",1);
-	is_outpath = AfxGetApp()->GetProfileInt("Settings","sw_outpath",0);
-	ext_viewer = AfxGetApp()->GetProfileString("Settings","extvw","");
-	OutPath = AfxGetApp()->GetProfileString("Settings","outpath","");
+	// ダイアログ項目の初期設定
+	if(theApp->m_year)
+	{
+		m_chk_year_ctrl.SetCheck(TRUE);
+		m_txt_year_ctrl.EnableWindow(TRUE);
+	}
+	else
+	{
+		m_chk_year_ctrl.SetCheck(FALSE);
+		m_txt_year_ctrl.EnableWindow(FALSE);
+	}
 
-	// コマンドラインの解析
-	if(AfxGetApp()->m_lpCmdLine[0] != (char)NULL)
-	{	// コマンドラインの１つめを入力ファイルとして扱う
-		SrcFname = AfxGetApp()->m_lpCmdLine;	// argv[1]
+	CheckRadioButton(IDC_RADIO_SELMODE_1, IDC_RADIO_SELMODE_2, IDC_RADIO_SELMODE_1);
+
+	// ファイル名が起動オプションとして渡されたとき、ファイルをコンバートする
+	if(theApp->m_shell_j6i_fname != (char)NULL)
+	{	// 引数としてファイル名が指定されている場合
+		SrcFname = theApp->m_shell_j6i_fname;
 		// ﾌｧｲﾙ名テキストボックスにファイル名をセット
-		this->SetDlgItemText(IDC_TXT_FNAME, AfxGetApp()->m_lpCmdLine);
+		SetDlgItemText(IDC_TXT_FNAME, SrcFname);
 
-		if(is_param_vw)
+		// 出力パスの指定
+		if(theApp->m_outpath)
+		{	// 出力パス固定の時
+			DstPath = theApp->m_outpath_fname;
+		}
+		else DstPath = "";
+
+
+		if(theApp->m_directview)
 		{	// 画像をコンバートし、表示する
 			SetDlgItemText(IDC_TXT_MES, "");	// ﾒｯｾｰｼﾞｴﾘｱのｸﾘｱ
-			CnvMain();	// コンバート
+			// ファイルのコンバート
+			if(theApp->m_year)
+				::ConvertJ6I((LPCSTR)SrcFname, (LPCSTR)DstPath, m_tmpMsg, m_hWnd, theApp->m_year_data, theApp->m_confirm_ovwr);
+			else
+				::ConvertJ6I((LPCSTR)SrcFname, (LPCSTR)DstPath, m_tmpMsg, m_hWnd, 0, theApp->m_confirm_ovwr);
+			m_last_j6i_file = SrcFname;
 			// 画像を表示する外部プログラムを実行
-			if(_spawnl(_P_NOWAIT, ext_viewer, ext_viewer, DstFname, NULL)<0)
-				DspMes("外部 Viewer が実行できない");
-			// コマンドラインを消去
-			AfxGetApp()->m_lpCmdLine[0] = (char)NULL;
+			OnBtnShw();
+			// プレビュー後JPGファイルを消去する
+			if(theApp->m_delete) 
+			{
+				DstFname = ::GetJ6iName(SrcFname, DstPath);
+				::remove(DstFname);
+			}
+			DspMes(m_tmpMsg);
+
 		}
 	}
 
@@ -149,6 +177,7 @@ BOOL CJ6icnvDlg::OnInitDialog()
 }
 
 // システムメニューの処理
+// ここでは、「About」ダイアログの表示メニューの処理をする
 void CJ6icnvDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
@@ -162,6 +191,7 @@ void CJ6icnvDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
+// ダイアログが破棄されるときには、ヘルプファイルを閉じる
 void CJ6icnvDlg::OnDestroy()
 {
 	WinHelp(0L, HELP_QUIT);
@@ -204,230 +234,149 @@ HCURSOR CJ6icnvDlg::OnQueryDragIcon()
 	return (HCURSOR) m_hIcon;
 }
 
-// J6I ファイルの選択
+// 「選択」ボタンが押されたとき。J6I ファイルの選択
 void CJ6icnvDlg::OnBtnSel() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
-	CFileDialog dlg(TRUE, "J6I", NULL, OFN_HIDEREADONLY|OFN_FILEMUSTEXIST|OFN_EXPLORER,
-		"J6I ﾌｧｲﾙ|*.J6I||");
-	dlg.m_ofn.lpstrTitle = "変換元の J6I ｲﾒｰｼﾞﾌｧｲﾙを選んでください";
 
-	if(dlg.DoModal() != IDOK) return;
+	if(GetCheckedRadioButton(IDC_RADIO_SELMODE_1, IDC_RADIO_SELMODE_2) == 
+		IDC_RADIO_SELMODE_1)
+	{	// ファイルを選択する
+	
+		CFileDialog dlg(TRUE, NULL, NULL, OFN_HIDEREADONLY|OFN_FILEMUSTEXIST|OFN_EXPLORER,
+			"J6I ファイル|*.J6I|すべてのファイル|*.*||");
+		dlg.m_ofn.lpstrTitle = "変換元の J6I イメージファイルの選択";
 
-	SrcFname = dlg.GetPathName();
-	// ﾌｧｲﾙ名テキストボックスにファイル名をセット
-	this->SetDlgItemText(IDC_TXT_FNAME,dlg.GetPathName());
+		if(dlg.DoModal() != IDOK) return;
 
+		// ﾌｧｲﾙ名テキストボックスにファイル名をセット
+		SetDlgItemText(IDC_TXT_FNAME,dlg.GetPathName());
+	}
+	else
+	{	// フォルダを選択する
+		char s_full[MAX_PATH];
+		char sTitle[] = "変換元フォルダの選択";
+		LPITEMIDLIST pidl;
+		BROWSEINFO bi;
+		ZeroMemory(&bi,sizeof(bi));
+		bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_STATUSTEXT;
+		bi.lpszTitle = sTitle;
+		bi.hwndOwner = m_hWnd;
+
+		pidl = ::SHBrowseForFolder(&bi);
+		if(pidl == NULL) return;
+		SHGetPathFromIDList(pidl, s_full);
+
+
+		// ルートフォルダの扱い。最後に \ がついているかどうか
+		if(s_full[strlen(s_full)-1] != '\\')
+			strcat(s_full, "\\");
+		// ファイル入力ボックスをアップデートする
+		SetDlgItemText(IDC_TXT_FNAME, s_full);
+	}
 }
 
 // コンバートボタンが押された時
 void CJ6icnvDlg::OnBtnCnv() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
+	CString SrcFname;	// 入力ファイル名（ダイアログ項目から取得する）
+	CString SrcPath;	// 入力ファイルのパス名
+	CString DstPath;	// 出力ファイル名（パスつき）
+	CString FnameBody;	// 拡張子なしのファイル名
+	CString tmpStr;
+
 	SetDlgItemText(IDC_TXT_MES, "");	// ﾒｯｾｰｼﾞｴﾘｱのｸﾘｱ
-	CnvMain();	// コンバート
-}
+	strcpy(m_tmpMsg, "");	// メッセージ用バッファのクリア
 
-// J6I を JPG にコンバートする関数
-void CJ6icnvDlg::CnvMain(void)
-{
-	CFile in,out;		// 入出力ファイルハンドル
-	CFileException fileException;	// ファイルアクセスのエラートラップ関数
-	void *buf;			// ファイルコピーの時のバッファ
-	header hd;			// ヘッダ領域を読み込むバッファ
-	int i, is_enable_date;
-	unsigned long j;	// ファイルポインタ
+	// ファイル入力ボックスに、入力されているかのチェック
+	GetDlgItemText(IDC_TXT_FNAME, SrcFname);	// ダイアログから入力ファイル名を取得
+	if(SrcFname == "" || SrcFname.GetLength() > (_MAX_DRIVE+_MAX_DIR+_MAX_FNAME))
+	{	//	入力ファイル名が無いか、長すぎる場合
+		tmpStr.LoadString(IDS_ERR_NOFIL_OR_LONG);
+		SetDlgItemText(IDC_TXT_MES, tmpStr);
+		return ;
+	}
 
-	if(SrcFname == "") return;		// 入力ファイル名がない場合
-
-	// パスを分割して出力ファイル名を作成する
-	char s_drv[_MAX_DRIVE], s_dir[_MAX_DIR], s_body[_MAX_FNAME], s_full[_MAX_DRIVE+_MAX_DIR+_MAX_FNAME+4];
-	_splitpath((LPCSTR)SrcFname, s_drv, s_dir, s_body, NULL);
 	// 出力パスの指定
-	if(is_outpath)
+	if(theApp->m_outpath)
 	{	// 出力パス固定の時
-		sprintf(s_full, "%s%s.jpg", (LPCSTR)OutPath, s_body);
+		DstPath = theApp->m_outpath_fname;
 	}
-	else sprintf(s_full, "%s%s%s.jpg", s_drv, s_dir, s_body);
-	DstFname = s_full;
+	else DstPath = "";
 
-	FnameBody = s_body;
+	// 変換形式を判別する
+	if(GetCheckedRadioButton(IDC_RADIO_SELMODE_1, IDC_RADIO_SELMODE_2) == 
+		IDC_RADIO_SELMODE_1)
+	{	// ファイルひとつを変換する
+		// ファイル名は SrcFname = "X:\XXX\ZZZZ.J6I" のように完全に入力されている
+		if(theApp->m_year)
+			::ConvertJ6I((LPCSTR)SrcFname, (LPCSTR)DstPath, m_tmpMsg, m_hWnd, theApp->m_year_data, theApp->m_confirm_ovwr);
+		else
+			::ConvertJ6I((LPCSTR)SrcFname, (LPCSTR)DstPath, m_tmpMsg, m_hWnd, 0, theApp->m_confirm_ovwr);
+		m_last_j6i_file = SrcFname;
+		tmpStr = m_tmpMsg;
+	}
+	else
+	{	// フォルダ内連続変換
+		// ファイル名入力ボックスはパスだけのため、"*.J6I"を追加する
+		CString WildcardFname = SrcFname + "*.J6I";
+		SrcPath = SrcFname;
+		struct _finddata_t finddata;
+		long hFind;
 
-
-	DspMes("%s の ｺﾝﾊﾞｰﾄを開始します", FnameBody);
-	// 上書きの確認
-	if(is_confirm_overwrite)
-	{
-		CFileStatus status;
-		if(CFile::GetStatus(DstFname, status))
-		{	// JPG ファイルが存在する時
-			CString tmpStr = FnameBody + ".jpg ﾌｧｲﾙが存在します\n上書きしますか";
-			if(MessageBox(tmpStr, "上書きの確認", MB_YESNO|MB_ICONQUESTION) != IDYES)
+	    if( (hFind = _findfirst((LPCSTR)WildcardFname, &finddata )) == -1L )
+		{
+			DspMes("ｺﾝﾊﾞｰﾄ対象ﾌｧｲﾙが見つからない\r\n");
+			return;
+		}
+		if(!(finddata.attrib & _A_SUBDIR))
+		{
+			SrcFname = SrcPath + finddata.name;
+			if(theApp->m_year)
+				::ConvertJ6I((LPCSTR)SrcFname, (LPCSTR)DstPath, m_tmpMsg, m_hWnd, theApp->m_year_data, theApp->m_confirm_ovwr);
+			else
+				::ConvertJ6I((LPCSTR)SrcFname, (LPCSTR)DstPath, m_tmpMsg, m_hWnd, 0, theApp->m_confirm_ovwr);
+			m_last_j6i_file = SrcFname;
+			tmpStr = m_tmpMsg;
+			DspMes(tmpStr);
+		}
+		while(_findnext( hFind, &finddata ) == 0)
+		{
+			strcpy(m_tmpMsg, "");	// メッセージ用バッファのクリア
+			if(!(finddata.attrib & _A_SUBDIR))
 			{
-				DspMes("ｺﾝﾊﾞｰﾄしませんでした");
-				return;
+				SrcFname = SrcPath + finddata.name;
+				if(theApp->m_year)
+					::ConvertJ6I((LPCSTR)SrcFname, (LPCSTR)DstPath, m_tmpMsg, m_hWnd, theApp->m_year_data, theApp->m_confirm_ovwr);
+				else
+					::ConvertJ6I((LPCSTR)SrcFname, (LPCSTR)DstPath, m_tmpMsg, m_hWnd, 0, theApp->m_confirm_ovwr);
+				m_last_j6i_file = SrcFname;
+				tmpStr += m_tmpMsg;
+				DspMes(tmpStr);
+				// 常に最終行を表示しておく
+				m_txt_mes_ctrl.LineScroll(m_txt_mes_ctrl.GetLineCount());
 			}
-			DspMes("ﾌｧｲﾙ %s.jpg を上書きします", FnameBody);
 		}
 	}
-
-	// 入出力双方のファイルを開く
-	if(!in.Open( SrcFname, CFile::modeRead, &fileException))
-	{
-		DspMes("J6I ﾌｧｲﾙ %s が読み込めない", SrcFname);
-		return;
-	}
-	if(!out.Open( DstFname, CFile::modeWrite|CFile::modeCreate, &fileException))
-	{
-		DspMes("JPG ﾌｧｲﾙ %s が作成できない", DstFname);
-		return;
-	}
-	// J6I ﾌｧｲﾙからヘッダを読み出す
-	if(in.Read(&hd, sizeof(header)) < sizeof(header))
-	{
-		DspMes("J6I ﾌｧｲﾙ ﾍｯﾀﾞ領域ｴﾗｰ");
-		out.Close();
-		in.Close();
-		return;
-	}
-	// ﾊﾞｲﾄ並びの入れ替え
-	if(!hd.endian)
-	{
-		j = hd.startaddr;
-		hd.startaddr = ((j & 0xff000000) >> 24) | ((j & 0x00ff0000) >> 8) | 
-			((j & 0x0000ff00) << 8) | ((j & 0x000000ff) << 24);
-		j = hd.endaddr;
-		hd.endaddr = ((j & 0xff000000) >> 24) | ((j & 0x00ff0000) >> 8) | 
-			((j & 0x0000ff00) << 8) | ((j & 0x000000ff) << 24);
-	}
-	// ヘッダ領域の検査
-	if(hd.head != (unsigned char)0x80 || hd.dummy1[0] != (unsigned char)0x3e)
-	{
-		DspMes("J6I ﾌｧｲﾙﾍｯﾀﾞが JPG ﾃﾞｰﾀの長さを示していない");
-		out.Close();
-		in.Close();
-		return;
-	}
-	// ヘッダ領域の検査(時刻が格納されているかどうか)
-	if(hd.enabledate == (unsigned char)0x81) is_enable_date = 1;
-	else
-	{
-		is_enable_date = 0;
-		DspMes("J6I ﾌｧｲﾙﾍｯﾀﾞに時刻情報が無い");
-	}
-
-	// 情報の表示
-	CString str;
-	if(is_enable_date)
-	{
-		str.Format("　　%02u年%02u月%02u日 %02u時%02u分%02u秒\r\n　　%Lu ﾊﾞｲﾄ (ﾍｯﾀﾞ %Lu ﾊﾞｲﾄ) ﾊﾞｰｼﾞｮﾝ %02d.%02d 属性 %02X",
-			BCDtoINT(hd.date[0]),
-			BCDtoINT(hd.date[1]),
-			BCDtoINT(hd.date[2]),
-			BCDtoINT(hd.date[3]),
-			BCDtoINT(hd.date[4]),
-			BCDtoINT(hd.date[5]),
-			hd.endaddr - hd.startaddr + 1,
-			hd.startaddr,
-			hd.ver_h, hd.ver_l, hd.attr);
-	}
-	else
-	{
-		str.Format("　　%Lu ﾊﾞｲﾄ (ﾍｯﾀﾞ %Lu ﾊﾞｲﾄ) ﾊﾞｰｼﾞｮﾝ %02d.%02d 属性 %02X",
-			hd.endaddr - hd.startaddr + 1,
-			hd.startaddr,
-			hd.ver_h, hd.ver_l, hd.attr);
-	}
-	DspMes(str);
-	// J6I ファイルのデータのある場所までのシーク
-	if((ULONG)in.Seek(hd.startaddr, CFile::begin) < hd.startaddr)
-	{
-		DspMes("J6I ﾌｧｲﾙ ﾍｯﾀﾞ領域ｴﾗｰ");
-		out.Close();
-		in.Close();
-		return;
-	}
-
-	// コピーするバッファの確保
-	if((buf = malloc(1024*10+1)) == NULL)
-	{
-		DspMes("ｺﾋﾟｰ用ﾊﾞｯﾌｧ領域 10 kBytes が確保できない");
-		return;
-	}
-	
-	j = hd.endaddr - hd.startaddr + 1;	// JPG データ長の計算
-	// データのコピー
-	do{
-		try
-		{
-			i = in.Read(buf, 1024*10 < j ? 1024*10 : j);
-		}
-		catch(CFileException *e)
-		{	// ファイルアクセスのエラーをトラップ
-			if(e->m_cause == CFileException::accessDenied) DspMes("J6Iﾌｧｲﾙのｱｸｾｽ禁止");
-			DspMes("J6I ﾌｧｲﾙ 読み込みｴﾗｰ");
-			break;
-		}
-		try
-		{
-			out.Write(buf, i);
-		}
-		catch(CFileException *e)
-		{	// ファイルアクセスのエラーをトラップ
-			if(e->m_cause == CFileException::diskFull) DspMes("ﾃﾞｨｽｸがいっぱい");
-			DspMes("JPG ﾌｧｲﾙ 書き込みｴﾗｰ");
-			break;
-		}
-		j -= i;
-	}while(i && j>0);
-
-	out.Close();
-	in.Close();
-
-	if(is_enable_date)
-	{
-		// JPG ﾌｧｲﾙの日付設定
-		CFileStatus status;
-		if(!CFile::GetStatus(DstFname, status))
-		{
-			DspMes("JPG ﾌｧｲﾙ %s の日付読み込みｴﾗｰ", DstFname);
-			return;
-		}
-		int yearhundred = 2000;
-		if(BCDtoINT(hd.date[0])>80) yearhundred = 1900; 
-		CTime DstTime(yearhundred+BCDtoINT(hd.date[0]), BCDtoINT(hd.date[1]), BCDtoINT(hd.date[2]),
-				BCDtoINT(hd.date[3]), BCDtoINT(hd.date[4]), BCDtoINT(hd.date[5]));
-
-		status.m_ctime = DstTime;
-		status.m_mtime = DstTime;
-		try{ CFile::SetStatus(DstFname, status); }
-		catch(CFileException *e)
-		{
-			if(e->m_cause == CFileException::accessDenied)
-				DspMes("JPG ﾌｧｲﾙ %s にｱｸｾｽ不能", DstFname);
-			DspMes("JPG ﾌｧｲﾙ %s の日付書き込みｴﾗｰ", DstFname);
-			return;
-		}
-	}
-
-	DspMes("%s 処理完了", FnameBody);
-
-	free(buf);
-
-	return;
+	// メッセージエリアを更新（情報の表示）
+	DspMes(tmpStr);
+	// 常に最終行を表示しておく
+	m_txt_mes_ctrl.LineScroll(m_txt_mes_ctrl.GetLineCount());
 }
+
 
 // メッセージエリアに文字列を表示する
+//
+// str2に値が入れられた場合は、いわゆる printf("...%s", str) のように扱う
 void CJ6icnvDlg::DspMes(CString str, CString str2)
 {
-	CString strStack, strTemp;
+	CString strTemp;
+
 	if(str2 != "") strTemp.Format(str, str2);
 	else strTemp = str;
-	GetDlgItemText(IDC_TXT_MES, strStack);
-	if(strStack != "") strStack = strStack + "\r\n" + strTemp;
-	else strStack = strTemp;
 
-	SetDlgItemText(IDC_TXT_MES, strStack);
+	SetDlgItemText(IDC_TXT_MES, strTemp);
 	return;
 }
 
@@ -438,33 +387,35 @@ void CJ6icnvDlg::OnBtnProf()
 	CProfDlg profDlg;
 
 	// ダイアログボックスの項目を設定
-	profDlg.m_chk_ovwr = (BOOL)is_confirm_overwrite;
-	profDlg.m_chk_ext = (BOOL)is_use_ext_viewer;
-	profDlg.m_paramvw = (BOOL)is_param_vw;
-	profDlg.m_outpath = (BOOL)is_outpath;
-	profDlg.m_txt_extviewer = ext_viewer;
-	profDlg.m_txt_outpath = OutPath;
+	profDlg.m_chk_ovwr = theApp->m_confirm_ovwr;
+	profDlg.m_chk_ext = theApp->m_extvwer;
+	profDlg.m_paramvw = theApp->m_directview;
+	profDlg.m_outpath = theApp->m_outpath;
+	profDlg.m_chk_delete = theApp->m_delete;
+	profDlg.m_chk_nodlg = theApp->m_nodialog;
+	profDlg.m_chk_year = theApp->m_year;
+	profDlg.m_txt_extviewer = theApp->m_extvwer_fname;
+	profDlg.m_txt_outpath = theApp->m_outpath_fname;
+	profDlg.m_txt_year = theApp->m_year_data;
 
 	if (profDlg.DoModal() == IDOK)
 	{
-		// ダイアログの内容をレジストリに保存
-		if(profDlg.m_chk_ovwr) AfxGetApp()->WriteProfileInt("Settings","cnf_ovwr",1);
-		else AfxGetApp()->WriteProfileInt("Settings","cnf_ovwr",0);
-		if(profDlg.m_chk_ext) AfxGetApp()->WriteProfileInt("Settings","use_extvw",1);
-		else AfxGetApp()->WriteProfileInt("Settings","use_extvw",0);
-		if(profDlg.m_paramvw) AfxGetApp()->WriteProfileInt("Settings","param_vw",1);
-		else AfxGetApp()->WriteProfileInt("Settings","param_vw",0);
-		if(profDlg.m_outpath) AfxGetApp()->WriteProfileInt("Settings","sw_outpath",1);
-		else AfxGetApp()->WriteProfileInt("Settings","sw_outpath",0);
-		AfxGetApp()->WriteProfileString("Settings","extvw", profDlg.m_txt_extviewer);
-		AfxGetApp()->WriteProfileString("Settings","outpath", profDlg.m_txt_outpath);
 		// レジストリを内部変数に格納し直す
-		is_confirm_overwrite = AfxGetApp()->GetProfileInt("Settings","cnf_ovwr",1);
-		is_use_ext_viewer = AfxGetApp()->GetProfileInt("Settings","use_extvw",0);
-		is_param_vw = AfxGetApp()->GetProfileInt("Settings","param_vw",1);
-		is_outpath = AfxGetApp()->GetProfileInt("Settings","sw_outpath",0);
-		ext_viewer = AfxGetApp()->GetProfileString("Settings","extvw","");
-		OutPath = AfxGetApp()->GetProfileString("Settings","outpath","");
+		theApp->m_confirm_ovwr = profDlg.m_chk_ovwr;
+		theApp->m_extvwer = profDlg.m_chk_ext;
+		theApp->m_directview = profDlg.m_paramvw;
+		theApp->m_outpath = profDlg.m_outpath;
+		theApp->m_delete = profDlg.m_chk_delete;
+		theApp->m_nodialog = profDlg.m_chk_nodlg;
+		theApp->m_year = profDlg.m_chk_year;
+		theApp->m_extvwer_fname = profDlg.m_txt_extviewer;
+		theApp->m_outpath_fname = profDlg.m_txt_outpath;
+		theApp->m_year_data = profDlg.m_txt_year;
+		m_chk_year_ctrl.SetCheck(profDlg.m_chk_year);
+		// 年号変換については、メインダイアログの同じ項目をアップデートする
+		SetDlgItemInt(IDC_TXT_YEAR, profDlg.m_txt_year);
+		if(profDlg.m_chk_year) m_txt_year_ctrl.EnableWindow(TRUE);
+		else m_txt_year_ctrl.EnableWindow(FALSE);
 	}
 }
 
@@ -472,59 +423,114 @@ void CJ6icnvDlg::OnBtnProf()
 void CJ6icnvDlg::OnBtnShw() 
 {
 	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
-	if(SrcFname =="")
+	CString DstPath;
+	CString DstFname;
+
+	if(m_last_j6i_file =="")
 	{
-		DspMes("まず、ｲﾒｰｼﾞﾌｧｲﾙを選択してください");
+		DspMes("まず、J6Iファイルを変換してください");
 		return;
 	}
-	CFileStatus status;
-	if(!CFile::GetStatus(DstFname, status))
-	{	// JPG ファイルが存在しない時
-		OnBtnCnv();
+
+	// 出力パスの指定
+	if(theApp->m_outpath)
+	{	// 出力パス固定の時
+		DstPath = theApp->m_outpath_fname;
 	}
-	if(_spawnl(_P_NOWAIT, ext_viewer, ext_viewer, DstFname, NULL)<0)
-		DspMes("外部 Viewer が実行できない");
-}
+	else DstPath = "";
 
-// 選んだフォルダの下のすべてのファイルを連続して変換する
-void CJ6icnvDlg::OnBtnSeq() 
-{
-	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
-	CFileDialog dlg(TRUE, "J6I", "入力ﾌｧｲﾙ.J6I", OFN_HIDEREADONLY|OFN_PATHMUSTEXIST|OFN_EXPLORER,
-		"J6I ﾌｧｲﾙ|*.J6I|すべてのﾌｧｲﾙ|*.*||");
-	dlg.m_ofn.lpstrTitle = "変換元の J6I ｲﾒｰｼﾞﾌｧｲﾙを含んでいるﾌｫﾙﾀﾞを指定して下さい";
-
-	if(dlg.DoModal() != IDOK) return;
-
-	SetDlgItemText(IDC_TXT_MES, "");	// ﾒｯｾｰｼﾞｴﾘｱのｸﾘｱ
-
-	CString SrcFinfPath = dlg.GetPathName();
-
-	// 入力ファイル名(ワイルドカード)の生成
-	char s_drv[_MAX_DRIVE], s_dir[_MAX_DIR], s_body[_MAX_FNAME], s_full[_MAX_DRIVE+_MAX_DIR+_MAX_FNAME+4];
-	_splitpath((LPCSTR)SrcFinfPath, s_drv, s_dir, s_body, NULL);
-	sprintf(s_full, "%s%s*.j6i", s_drv, s_dir);
-
-	struct _finddata_t finddata;
-	long hFind;
-    if( (hFind = _findfirst(s_full, &finddata )) == -1L )
+	DstFname = ::GetJ6iName(m_last_j6i_file, DstPath);
+	if(theApp->m_extvwer)
 	{
-		DspMes("ｺﾝﾊﾞｰﾄ対象ﾌｧｲﾙが見つからない");
-		return;
-	}
-	if(!(finddata.attrib & _A_SUBDIR))
-	{
-		strcpy(s_full, finddata.name);
-		SrcFname = s_full;
-		CnvMain();
-	}
-	while(_findnext( hFind, &finddata ) == 0)
-	{
-		if(!(finddata.attrib == _A_SUBDIR))
+		if(theApp->m_delete) 
+		{	// 出力ファイル消去モードのときは、プロセス終了を待つ
+			if(_spawnl(_P_WAIT, theApp->m_extvwer_fname, theApp->m_extvwer_fname, DstFname, NULL)<0)
+				DspMes("外部 Viewer が実行できない");
+		}
+		else
 		{
-			strcpy(s_full, finddata.name);
-			SrcFname = s_full;
-			CnvMain();
+			if(_spawnl(_P_NOWAIT, theApp->m_extvwer_fname, theApp->m_extvwer_fname, DstFname, NULL)<0)
+				DspMes("外部 Viewer が実行できない");
 		}
 	}
+	else
+	{
+		::ShellExecute(m_hWnd, NULL, DstFname, NULL, NULL, SW_SHOW);
+	}
+}
+
+// 年号変換のチェックボックスで、年号入力領域の「有効・無効」の切り替えをする
+void CJ6icnvDlg::OnChkYear() 
+{
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
+	if(!IsDlgButtonChecked(IDC_CHK_YEAR))
+	{
+		m_txt_year_ctrl.EnableWindow(FALSE);
+		theApp->m_year = FALSE;
+	}
+	else
+	{
+		m_txt_year_ctrl.EnableWindow(TRUE);
+		theApp->m_year = TRUE;
+	}	
+}
+
+// 年号入力ボックスに新しい年号が入力された場合
+// 共通領域のデータをアップデートする
+void CJ6icnvDlg::OnChangeTxtYear() 
+{
+	// TODO: これが RICHEDIT コントロールの場合、コントロールは、 lParam マスク
+	// 内での論理和の ENM_CHANGE フラグ付きで CRichEditCrtl().SetEventMask()
+	// メッセージをコントロールへ送るために CDialog::OnInitDialog() 関数をオーバー
+	// ライドしない限りこの通知を送りません。
+	
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
+	theApp->m_year_data = GetDlgItemInt(IDC_TXT_YEAR);
+}
+
+// ラジオボタン「ひとつのファイルを処理」をクリック
+void CJ6icnvDlg::OnRadioSelmode1() 
+{
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
+	SetDlgItemText(IDC_TXT_FNAME, "");	// ファイル入力エリアをクリア
+}
+
+// ラジオボタン 「連続」をクリック
+void CJ6icnvDlg::OnRadioSelmode2() 
+{
+	// TODO: この位置にコントロール通知ハンドラ用のコードを追加してください
+	SetDlgItemText(IDC_TXT_FNAME, "");	// ファイル入力エリアをクリア	
+}
+
+// 年号入力ボックスの右にある、スクロールボタンを押した場合の処理
+void CJ6icnvDlg::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
+{
+	// このメッセージ関数には、すべてのスクロールボタンのメッセージが入ってくる。
+	// したがって、特定のスクロールボタンを判定してから処理する
+	//
+	// TODO: この位置にメッセージ ハンドラ用のコードを追加するかまたはデフォルトの処理を呼び出してください
+	UINT year;
+
+	year = GetDlgItemInt(IDC_TXT_YEAR);
+	if(year < 1980 || year > 2030)
+	{
+		CTime t = CTime::GetCurrentTime();
+		year = t.GetYear();
+	}
+
+	if(pScrollBar->GetDlgCtrlID() == IDC_SCROLL_YEAR)
+	{
+		switch(nSBCode)
+		{
+			case SB_LINEUP :
+				if(year<2030)year++; break;
+			case SB_LINEDOWN :
+				if(year>1980) year--;
+				break;
+			default : break;
+		}
+		SetDlgItemInt(IDC_TXT_YEAR, year);
+	}
+	
+	CDialog::OnVScroll(nSBCode, nPos, pScrollBar);
 }

@@ -1,31 +1,6 @@
 // j6icnvDlg.h : ヘッダー ファイル
 //
 
-typedef struct headertag
-{
-
-	unsigned char head;				/* 00 */
-	unsigned char dummy1[7-1+1];
-	unsigned char ver_h, ver_l;		/* 08,09 */
-	char dummy2[0x0f-0x0a+1];
-	char spec[0x2f-0x10+1];			/* 10 - 2F */
-	unsigned char attr;				/* 30 */
-	unsigned char gamma;			/* 31 */
-	unsigned char endian;			/* 32 */
-	unsigned char dummy3[0x37-0x33+1];
-	unsigned long startaddr;		/* 38,39,3A,3B */
-	unsigned long endaddr;			/* 3C,3D,3E,3F */
-	unsigned char enabledate;		/* 40 */
-	unsigned char dummy4;
-	unsigned char tz;				/* 42 */
-	char dummy5;
-	unsigned char date[0x49-0x44+1];/* 44-49 */
-	char dummy6[0xab-0x4a+1];
-}header;
-
-unsigned int BCDtoINT(unsigned char bcd);
-
-
 /////////////////////////////////////////////////////////////////////////////
 // CJ6icnvDlg dialog
 
@@ -33,18 +8,19 @@ class CJ6icnvDlg : public CDialog
 {
 // 構築
 public:
+	CString m_last_j6i_file;
 	CJ6icnvDlg(CWnd* pParent = NULL);	// 標準のコンストラクタ
-	void CnvMain(void);		// ｺﾝﾊﾞｰﾀ本体
 	void DspMes(CString str, CString str2="");	// メッセージエリアへの表示
 
-	CString SrcFname, DstFname;		// 変換元と変換先の完全なパス名
-	CString FnameBody;				// 拡張子無しのファイル名
-	CString OutPath;				// 出力パス
 
 // Dialog Data
 	//{{AFX_DATA(CJ6icnvDlg)
 	enum { IDD = IDD_J6ICNV_DIALOG };
-		// メモ: この位置に ClassWizard によってデータ メンバが追加されます。
+	CEdit	m_txt_mes_ctrl;
+	CButton	m_chk_year_ctrl;
+	CEdit	m_txt_year_ctrl;
+	BOOL	m_chk_year;
+	UINT	m_txt_year;
 	//}}AFX_DATA
 
 	// ClassWizard は仮想関数を生成しオーバーライドします。
@@ -56,6 +32,7 @@ public:
 // インプリメンテーション
 protected:
 	HICON m_hIcon;
+	CJ6icnvApp *theApp;
 
 	// 生成されたメッセージ マップ関数
 	//{{AFX_MSG(CJ6icnvDlg)
@@ -68,9 +45,15 @@ protected:
 	afx_msg void OnBtnCnv();
 	afx_msg void OnBtnProf();
 	afx_msg void OnBtnShw();
-	afx_msg void OnBtnSeq();
+	afx_msg void OnChkYear();
+	afx_msg void OnChangeTxtYear();
+	afx_msg void OnRadioSelmode1();
+	afx_msg void OnRadioSelmode2();
+	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+private:
+	char m_tmpMsg[256];
 };
 
 

@@ -72,64 +72,120 @@ IDR_MAINFRAME           ICON    DISCARDABLE     "res\\idr_main.ico"
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 194, 115
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 206, 179
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
-CAPTION "j6icnv について"
+CAPTION "J6I イメージ コンバータ について"
 FONT 9, "ＭＳ Ｐゴシック"
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,18,20
-    CTEXT           "j6iCnv ｱﾌﾟﾘｹｰｼｮﾝ\nversion 1.0 for Windows95",IDC_STATIC,
-                    40,10,119,20,SS_NOPREFIX
-    CTEXT           "(C) 1997 INOUE. Hirokazu\n\ninoue-h@mailhost.net\ngdh03306@niftyserve.or.jp\n\nこのﾌﾟﾛｸﾞﾗﾑはﾌﾘｰｳｴｱです。",
-                    IDC_STATIC,40,35,119,55
-    DEFPUSHBUTTON   "OK",IDOK,62,95,65,15,WS_GROUP
+    LTEXT           "J6I イメージ コンバータ\nVersion 1.8 for Windows",
+                    IDC_STATIC,8,72,140,20,SS_NOPREFIX
+    LTEXT           "(C) 1997-2000 INOUE. Hirokazu\n\ninoue-h@iname.com\ngdh03306@nifty.com\n\nこのプログラムはフリーウエアです。",
+                    IDC_STATIC,8,100,140,55
+    PUSHBUTTON      "OK",IDOK,140,160,61,15,NOT WS_TABSTOP
+    CONTROL         133,IDC_STATIC,"Static",SS_BITMAP,8,4,193,63
 END
 
-IDD_J6ICNV_DIALOG DIALOGEX 0, 0, 211, 147
+IDD_J6ICNV_DIALOG DIALOGEX 0, 0, 242, 227
 STYLE DS_MODALFRAME | DS_3DLOOK | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | 
     WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "J6I ｲﾒｰｼﾞｺﾝﾊﾞｰﾀ"
-FONT 9, "ＭＳ Ｐゴシック"
+CAPTION "J6I イメージ コンバータ"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x1
 BEGIN
-    EDITTEXT        IDC_TXT_FNAME,10,5,120,15,ES_AUTOHSCROLL | ES_READONLY | 
+    EDITTEXT        IDC_TXT_FNAME,8,16,148,15,ES_AUTOHSCROLL | ES_READONLY | 
                     NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_STATICEDGE
-    PUSHBUTTON      "ﾌｧｲﾙの選択",IDC_BTN_SEL,140,5,60,15
-    PUSHBUTTON      "ｺﾝﾊﾞｰﾄ (変換)",IDC_BTN_CNV,140,25,60,15
-    PUSHBUTTON      "連続ｺﾝﾊﾞｰﾄ",IDC_BTN_SEQ,140,45,60,15
-    PUSHBUTTON      "画像表示",IDC_BTN_SHW,140,65,60,15
-    PUSHBUTTON      "機能設定",IDC_BTN_PROF,140,85,60,15
-    PUSHBUTTON      "ﾍﾙﾌﾟ",ID_HELP,140,105,60,15
-    DEFPUSHBUTTON   "閉じる",IDOK,140,125,60,15
-    EDITTEXT        IDC_TXT_MES,10,25,120,95,ES_MULTILINE | ES_AUTOVSCROLL | 
+    PUSHBUTTON      "参照",IDC_BTN_SEL,160,16,68,15
+    CONTROL         "１つのファイルを選択",IDC_RADIO_SELMODE_1,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,8,32,92,12
+    CONTROL         "フォルダを選択 （連続コンバート）",IDC_RADIO_SELMODE_2,
+                    "Button",BS_AUTORADIOBUTTON,104,32,124,12
+    CONTROL         "年号変換を行う （2000年問題）",IDC_CHK_YEAR,"Button",
+                    BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,8,64,116,16
+    EDITTEXT        IDC_TXT_YEAR,140,64,36,15,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_STATICEDGE
+    PUSHBUTTON      "コンバート開始",IDC_BTN_CNV,164,100,68,15
+    PUSHBUTTON      "画像表示",IDC_BTN_SHW,164,180,68,15
+    PUSHBUTTON      "機能設定",IDC_BTN_PROF,56,208,60,15
+    PUSHBUTTON      "ヘルプ",ID_HELP,116,208,60,15
+    DEFPUSHBUTTON   "閉じる",IDOK,176,208,60,15
+    EDITTEXT        IDC_TXT_MES,8,100,148,96,ES_MULTILINE | ES_AUTOVSCROLL | 
                     ES_AUTOHSCROLL | ES_READONLY | ES_WANTRETURN | NOT 
                     WS_BORDER | WS_VSCROLL | NOT WS_TABSTOP,WS_EX_STATICEDGE
+    GROUPBOX        "コンバート元のファイル / フォルダ",IDC_STATIC,4,4,232,
+                    44
+    GROUPBOX        "コンバートオプション",IDC_STATIC,4,52,232,32
+    GROUPBOX        "コンバート処理",IDC_STATIC,4,88,232,116
+    SCROLLBAR       IDC_SCROLL_YEAR,176,64,8,16,SBS_VERT
+    LTEXT           "年とする",IDC_STATIC,188,64,36,16,SS_CENTERIMAGE
 END
 
-IDD_DLG_PROF DIALOGEX 0, 0, 211, 185
+IDD_DLG_PROF DIALOGEX 0, 0, 226, 243
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "機能の設定"
+CAPTION "J6I イメージコンバータ 機能設定"
 FONT 9, "ＭＳ Ｐゴシック"
 BEGIN
-    CONTROL         "JPGﾌｧｲﾙ上書きの時に確認する",IDC_CHK_OVWR,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,5,5,125,15
-    CONTROL         "ｴｸｽﾌﾟﾛｰﾗから開く時、画像表示まで行う",IDC_CHK_PARAMVW,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,25,170,15
-    CONTROL         "このﾌｫﾙﾀﾞに出力する",IDC_CHK_OUTPUT,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,10,55,125,15
-    PUSHBUTTON      "参照",IDC_BTN_OUTPUT,140,75,55,15
-    PUSHBUTTON      "参照",IDC_BTN_EXT,140,135,55,15
-    DEFPUSHBUTTON   "OK",IDOK,45,165,50,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,100,165,50,14
-    PUSHBUTTON      "ﾍﾙﾌﾟ",ID_HELP,155,165,50,14
-    CONTROL         "JPG 表示に外部ﾌﾟﾛｸﾞﾗﾑを使う",IDC_CHK_EXT,"Button",
-                    BS_AUTOCHECKBOX | WS_DISABLED,5,100,125,15
-    GROUPBOX        "JPG 表示の外部ﾌﾟﾛｸﾞﾗﾑ名",IDC_STATIC,5,120,200,40
-    EDITTEXT        IDC_TXT_EXT,10,135,125,15,ES_AUTOHSCROLL | ES_READONLY | 
+    CONTROL         "JPGファイル上書きの時に確認する",IDC_CHK_OVWR,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,4,4,200,12
+    CONTROL         "エクスプローラから開く時、画像表示まで行う",
+                    IDC_CHK_PARAMVW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,
+                    20,200,12
+    CONTROL         "ファイル名を指定されて実行した場合は、ダイアログ表示しない",
+                    IDC_CHK_NODLG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,36,
+                    200,12
+    CONTROL         "プログラム終了時に、出力ファイルを消去する (外部ﾌﾟﾛｸﾞﾗﾑ表示時）",
+                    IDC_CHK_DELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,
+                    52,216,12
+    CONTROL         "ソースファイルと同じフォルダ",IDC_RADIO_OUTPATH,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,8,80,156,12
+    CONTROL         "テンポラリフォルダ (Windowsシステム指定)",
+                    IDC_RADIO_OUTPATH2,"Button",BS_AUTORADIOBUTTON,8,92,156,
+                    12
+    CONTROL         "指定フォルダ",IDC_RADIO_OUTPATH3,"Button",
+                    BS_AUTORADIOBUTTON,8,104,156,12
+    PUSHBUTTON      "参照",IDC_BTN_OUTPUT,164,120,55,15,WS_GROUP
+    CONTROL         "JPG 表示に外部プログラムを使う",IDC_CHK_EXT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,156,164,12
+    PUSHBUTTON      "参照",IDC_BTN_EXT,164,176,55,15
+    CONTROL         "年号を変更する",IDC_CHK_YEAR,"Button",BS_AUTOCHECKBOX | 
+                    BS_VCENTER | WS_TABSTOP,4,208,80,12
+    EDITTEXT        IDC_TXT_YEAR,84,204,40,16,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER,WS_EX_STATICEDGE
+    PUSHBUTTON      "About",IDC_ABOUT,16,228,50,14
+    DEFPUSHBUTTON   "OK",IDOK,68,228,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,120,228,50,14
+    PUSHBUTTON      "ヘルプ",ID_HELP,172,228,50,14
+    EDITTEXT        IDC_TXT_OUTPUT,8,120,151,15,ES_AUTOHSCROLL | ES_READONLY | 
                     NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_STATICEDGE
-    GROUPBOX        "JPGﾌｧｲﾙの出力ﾌｫﾙﾀﾞ",IDC_STATIC,5,45,200,55
-    EDITTEXT        IDC_TXT_OUTPUT,10,75,125,15,ES_AUTOHSCROLL | ES_READONLY | 
+    EDITTEXT        IDC_TXT_EXT,9,175,151,15,ES_AUTOHSCROLL | ES_READONLY | 
                     NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_STATICEDGE
+    GROUPBOX        "JPG 表示の外部プログラム名",IDC_STATIC,4,144,220,56
+    GROUPBOX        "JPGファイルの出力フォルダ",IDC_STATIC,4,68,220,72
+    LTEXT           "年とする",IDC_STATIC,144,204,36,16,SS_CENTERIMAGE
+    SCROLLBAR       IDC_SCROLL_YEAR,124,204,8,16,SBS_VERT
+END
+
+IDD_DLG_INST DIALOG DISCARDABLE  0, 0, 202, 207
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "J6I ファイル コンバータのインストール"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    CONTROL         "スタートメニューに登録する",IDC_CHK_START,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,116,184,12
+    CONTROL         "J6I ファイルに関連付ける",IDC_CHK_ASSOCIATE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,128,184,12
+    CONTROL         "アプリケーションの追加と削除でアンインストール",
+                    IDC_RADIO_UNINST1,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,12,156,176,12
+    CONTROL         "スタートメニューからアンインストール (ﾏﾙﾁﾕｰｻﾞ対応）",
+                    IDC_RADIO_UNINST2,"Button",BS_AUTORADIOBUTTON,12,168,176,
+                    12
+    PUSHBUTTON      "ヘルプ",IDC_HELP_INST,36,188,52,16,WS_GROUP
+    DEFPUSHBUTTON   "OK",IDOK,88,188,52,16
+    PUSHBUTTON      "キャンセル",IDCANCEL,140,188,54,16
+    CONTROL         133,IDC_STATIC,"Static",SS_BITMAP,4,4,193,63
+    LTEXT           "J6I イメージ コンバータをインストールします\n\nメニューへの登録や、アンインストールのためのオプションを選択してください。",
+                    IDC_STATIC,4,72,192,40
+    GROUPBOX        "アンインストールのオプション",IDC_STATIC,4,144,192,40
 END
 
 
@@ -140,13 +196,13 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 1,8,0,0
+ PRODUCTVERSION 1,8,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
- FILEFLAGS 0x1L
+ FILEFLAGS 0x29L
 #else
- FILEFLAGS 0x0L
+ FILEFLAGS 0x28L
 #endif
  FILEOS 0x4L
  FILETYPE 0x1L
@@ -156,15 +212,18 @@ BEGIN
     BEGIN
         BLOCK "041104b0"
         BEGIN
-            VALUE "Comments", "J6I image file convert to JPG\0"
+            VALUE "Comments", "J6I イメージ コンバータ\0"
             VALUE "CompanyName", "hi soft\0"
-            VALUE "FileDescription", "j6iCnv for win95\0"
-            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "FileDescription", "J6I イメージ コンバータ\0"
+            VALUE "FileVersion", "1, 8, 0, 0\0"
             VALUE "InternalName", "j6iCnv\0"
-            VALUE "LegalCopyright", "Copyright (C) 1997 INOUE. Hirokazu\0"
+            VALUE "LegalCopyright", "Copyright (C) 1997-2000 INOUE. Hirokazu\0"
+            VALUE "LegalTrademarks", "Copyright (C) 1997-2000 INOUE. Hirokazu\0"
             VALUE "OriginalFilename", "j6icnv.exe\0"
-            VALUE "ProductName", "j6iCnv for win95\0"
-            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "PrivateBuild", "Visual C ver 6.0 Windows/JP\0"
+            VALUE "ProductName", "J6I イメージ コンバータ\0"
+            VALUE "ProductVersion", "1, 8, 0, 0\0"
+            VALUE "SpecialBuild", "Visual C ver 6.0 Windows/JP\0"
         END
     END
     BLOCK "VarFileInfo"
@@ -187,29 +246,44 @@ BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 187
+        RIGHTMARGIN, 199
         TOPMARGIN, 7
-        BOTTOMMARGIN, 108
+        BOTTOMMARGIN, 172
     END
 
     IDD_J6ICNV_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 204
+        RIGHTMARGIN, 235
         TOPMARGIN, 7
-        BOTTOMMARGIN, 140
+        BOTTOMMARGIN, 220
     END
 
     IDD_DLG_PROF, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 204
+        RIGHTMARGIN, 219
         TOPMARGIN, 7
-        BOTTOMMARGIN, 178
+        BOTTOMMARGIN, 236
+    END
+
+    IDD_DLG_INST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 200
     END
 END
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP_TITLE        BITMAP  DISCARDABLE     "RES\\ico_concept.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -219,6 +293,15 @@ END
 STRINGTABLE DISCARDABLE 
 BEGIN
     IDS_ABOUTBOX            "ﾊﾞｰｼﾞｮﾝ情報 (&A)..."
+    IDS_ERR_NOFIL_OR_LONG   "入力ファイルが指定されていないか、\nパス名が長すぎます。\n\n処理中止"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "j6i_conv"
+    IDS_APPNAME             "J6I イメージ コンバータ"
+    IDS_Q_UNINST            "J6I イメージ コンバータを削除しますか ？"
+    IDS_END_UNINST          "アンインストールを完了しました\n\nプログラムファイル本体や、別の場所にショートカットを作成していた場合は、手動で消去してください。"
 END
 
 #endif    // 日本語 resources

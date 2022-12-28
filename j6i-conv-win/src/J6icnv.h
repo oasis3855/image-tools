@@ -7,8 +7,6 @@
 
 #include "resource.h"		// メイン シンボル
 
-extern int is_confirm_overwrite, is_use_ext_viewer, is_param_vw, is_outpath;
-extern CString ext_viewer;
 
 /////////////////////////////////////////////////////////////////////////////
 // CJ6icnvApp:
@@ -18,6 +16,21 @@ extern CString ext_viewer;
 class CJ6icnvApp : public CWinApp
 {
 public:
+	UINT m_year_data;
+	BOOL m_year;
+	BOOL m_delete;
+	BOOL m_nodialog;
+	void UnInstallSeq(void);
+	BOOL InstallSeq(void);
+	CString m_shell_j6i_fname;
+	BOOL m_directview;
+	CString m_outpath_fname;
+	CString m_extvwer_fname;
+	int m_outpath;
+	BOOL m_extvwer;
+	BOOL m_confirm_ovwr;
+	void RegWriteAll(void);
+	void RegReadAll(void);
 	CJ6icnvApp();
 
 // オーバーライド

@@ -4,17 +4,16 @@
 .hl 1
 
 .ce 2
-j6iCnv
-version 1.0 for Windows 95
+J6I イメージ コンバータ
+version 1.8
+
 
 .ri 4
-○NIFTY Serve
-GDH03306
-○internet
-inoue-h@mailhost.net
+inoue-h@iname.com
+inoue-h@bigfoot.com
 
-.ri 1
-(C)opyright 1997 井上 博計
+Copyright (C) 2000 井上 博計
+
 
 .hl 1
 .sp 12
@@ -23,107 +22,107 @@ inoue-h@mailhost.net
 .in 6
 はじめに
 １．動作環境
-２．使用法
-３．ｱﾝｲﾝｽﾄｰﾙ方法
-４．その他
+２．インストール
+３．簡単な使用法
+４．アンインストール
 ５．保証、著作権等　法律面でのお知らせ
+
+ENGLISH document after Japanese document .
 .in 0
 .sp 5
 はじめに
 .in 6
 .fi
-j6iCnvを利用して頂きありがとうございます。
+J6Iイメージ コンバータを使用いただきありがとうございます。
 .br
-このﾌﾟﾛｸﾞﾗﾑでは以下のことが出来ます。
+このプログラムの特徴は次のとおりです
 .br
 .in 10
-●J6I形式(JEIDA準拠)の画像ﾌｧｲﾙをJPEG形式の画像ﾌｧｲﾙにｺﾝﾊﾞｰﾄする。
+●デジタルカメラのJ6I形式のデータファイルからJPEG形式の画像データを取り出すプログラムです。
 .br
-  (xxx.J6I  ->  xxx.JPG)
+●J6I形式のデータファイルには｢ヘッダ領域｣や｢空き領域｣などの余分なデータが入っていますので、これらを削除することでディスク領域を節約することも出来ます。
+.br
+※ J6Iファイルは、リコーのデジタルカメラ DC-2シリーズで使用されています
 .nf
 .in 0
-
+.sp 3
 １．動作環境
 .in 6
-Intel(互換)CPUを使用した、Windows95の動作するﾊﾟｰｿﾅﾙｺﾝﾋﾟｭｰﾀ
-日本語が使用出来る環境
-.fi
-MFC40.DLL,MSVCRT40.DLLが使用できること。
-(ｼｽﾃﾑﾌｫﾙﾀﾞ(通常c:\windows\system)にあるはずです。たとえばMicrosoft Office95
-を使っていればOKです。NIFTY FGALGL Lib11の41や、FWINDB Lib3の360から
-ﾀﾞｳﾝﾛｰﾄﾞ可能だとおもいます。)
-.nf
+Windows 98 , 98SE , Windows 2000 (日本語版)
+MFC42.DLLおよびMSVCRT.DLLがシステムフォルダに存在すること
 .in 0
-
-２．使用法
+.sp 3
+２．インストール
 .in 6
 .fi
-配布時のﾌｧｲﾙすべてを適当なﾌｫﾙﾀﾞに入れて実行してください。(j6icnv.exe,
-j6icnv.hlp, j6icnv.cnt)
+配布されたプログラム・パッケージを、適当なフォルダにコピーする。
 .br
-次に、j6icnv.hlpを開いて(Explorerでﾀﾞﾌﾞﾙｸﾘｯｸする)、ﾍﾙﾌﾟﾌｧｲﾙに目を通して下さい。
-ﾌﾟﾛｸﾞﾗﾑを起動したら、まず環境設定を行って下さい。
+（新たにフォルダを作ることを薦めます。アンインストールに便利です。）
+.sp 1
+j6icnv.exeを実行すると、インストーラが起動します。
+.nf
+.in 0
+.sp 3
+３．簡単な使用法
+.in 6
+.fi
+スタートメニューの「J6I イメージ コンバータ」メニューを実行します。
+.nf
+.in 0
+.sp 3
+４．アンインストール
+.in 6
+.fi
+コントロールパネルの「アプリケーションの追加と削除」からアンインストールします。
+.br
+※ インストール時の「アンインストール オプション」によっては、スタートメニューにアンインストール アイコンが作成されますので、こちらを使用してください。
+.nf
+.in 0
+.sp 3
+５．使用許諾条件
+.in 6
+.fi
+このプログラムとドキュメントをフリーウエアーとし、
+すべての著作権は作者である井上博計に属します。
+.sp 1
+著作者はこのプログラム及びドキュメントに関するいかなる保証も行いません。
+このプログラムの使用はすべて使用者の責任において行って下さい。
+.sp 1
+著作者による許可無しにこのプログラムとドキュメントを販売することは
+出来ません。ただし、無料ソフトとして配布する場合はディスク料金や
+郵送料等、最低限の対価の授受を伴ってもかまいません。
+また、雑誌などの販促物に付属させるときもこれに準じます。
+.sp 1
+その他条件は、添付のヘルプファイル（j6icnv.hlp）に準じます。
 .sp 2
-実際の使用の流れは、以下のようになります。
+Windows 95/98/2000/NT は Microsoft社の登録商標です
 .br
-xxx.J6I  ->  xxx.JPG    [j6iCnvを使用]
+Visual C++, Microsoft WordはMicrosoft社の登録商標です
 .br
-xxx.JPG の表示,編集     [市販のﾌｫﾄﾚﾀｯﾁﾌﾟﾛｸﾞﾗﾑ等]
+その他、このプログラム中の各社の製品名等は各社の登録商標です
+.nf
+.in 0
+.sp 3
+J6I image file converter users manual
+
+.fi
+Thank you for using J6I image file converter .
 .sp 2
-JPEG画像ﾌｧｲﾙを表示するﾌﾟﾛｸﾞﾗﾑには、
-Microsoft Internet Explorer, Netscape Navigatorなどがあり、
-編集できるものとしては、Photoshop, Paint Shop Pro, Super Kidなどを使用できます。
+To install j6icnv.exe, copy j6icnv.exe to your favorite folder. Then execute j6icnv.exe, installer automatically appiars.
+.sp 2
+IMPORTANT NOTICE
 .br
-ただし、ｱｽﾍﾟｸﾄ比の調整もしなければいけない時は画像編集出来るものの方がいいと思います。
+In your System folder, there is latest MFC42.DLL and MSVCRT.DLL .
+.sp 2
+LEGAL NOTICE
 .br
-(商品名は各社の商標です)
-.nf
-.in 0
+This program is free ware. And all copyrights is reserved by INOUE. Hirokazu(author). There is no guarantee of this program functioning correctly, and author is not responsible to every result of this program.
+Other condition follows "j6icnv help file".
+.br
+Every contacts with author is based on Japanese language only .
 
-３．ｱﾝｲﾝｽﾄｰﾙ方法
-.in 6
-ﾍﾙﾌﾟﾌｧｲﾙの｢ｱﾝｲﾝｽﾄｰﾙ｣の項目を読んで下さい。
-.nf
-.in 0
-
-４．その他
-.in 6
-.fi
-このﾌﾟﾛｸﾞﾗﾑは、ﾘｺｰのﾃﾞｼﾞﾀﾙｶﾒﾗDC-2Lの画像を簡単に見るために作成したものです。
-個人的な利用が目的でしたので、画像を表示したり加工したりするﾌﾟﾛｸﾞﾗﾑは市販の｢いつも使う｣ﾌﾟﾛｸﾞﾗﾑを使うということで、ｺﾝﾊﾞｰﾄのみ出来る機能を持たせてあります。
-.br
-ｶﾒﾗを買って、画像を見るためには別売りﾌﾟﾛｸﾞﾗﾑを買わなければいけないのはあまりにも悲しすぎます。簡単な画像ｺﾝﾊﾞｰﾀを無償で配布するか、記録ﾌｫｰﾏｯﾄを通常のJPEGにしてくれたらいいと思いますが。(ﾒｰｶｰさんへのお願い)
-.br
-というわけで、すでにﾌｫﾄﾚﾀｯﾁｿﾌﾄを持っている人には打ってつけのﾌﾟﾛｸﾞﾗﾑではないでしょうか？
-.br
-Microsoft Visual C++で作成していますので、MFCのﾗｲﾌﾞﾗﾘがWindowsにｲﾝｽﾄｰﾙ
-されていなければ動きません。(MFC40.DLL)
-.nf
-.in 0
-
-５．保証、著作権等　法律面でのお知らせ
-.in 6
-.fi
-このﾌﾟﾛｸﾞﾗﾑとﾄﾞｷｭﾒﾝﾄをﾌﾘｰｳｴｱｰとし、すべての著作権は作者である井上博計に
-属します。
-.br
-著作者はこのﾌﾟﾛｸﾞﾗﾑ及びﾄﾞｷｭﾒﾝﾄに関するいかなる保証も行いません。
-このﾌﾟﾛｸﾞﾗﾑの使用はすべて使用者の責任において行って下さい。
-.br
-著作者による許可無しにこのﾌﾟﾛｸﾞﾗﾑとﾄﾞｷｭﾒﾝﾄを販売する事は出来ません。
-ただし、無料ｿﾌﾄとして配布する場合はﾃﾞｨｽｸ料金や郵送料等、最低限の対価の
-授受を伴ってもかまいません。また、雑誌の販促物に付属させるときもこれに
-準じます。
-.br
-このﾌﾟﾛｸﾞﾗﾑのｻﾎﾟｰﾄは著作者宛電子ﾒｰﾙを使用して行いますが、著作者がｻﾎﾟｰﾄを
-行うのはﾎﾞﾗﾝﾃｨｱであって義務・責務ではありません。
-.br
-ﾈｯﾄﾜｰｸを長期間留守にする事もありますので、自動的にﾒｰﾙが消去されている可能性
-もありますのでご注意下さい。
-.nf
-.in 0
 
 
 .ri 1
-1997 / 05 / 01
+2000 / 03 / 7
 .hl 1
