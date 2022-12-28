@@ -10,6 +10,7 @@ Last Updated : Jan. 2012
 - [サムネイルHTML作成スクリプト（Linux）](#サムネイルhtml作成スクリプトlinux)
 - [サムネイルHTML作成プログラム（Windows）](#サムネイルhtml作成プログラムwindows)
 - [画像一括リサイズ スクリプト](#画像一括リサイズ-スクリプト)
+- [J6I イメージコンバータ for RICOHデジカメDC-1/DC-2 (Windows)](#j6i-イメージコンバータ-for-ricohデジカメdc-1dc-2-windows)
 - [Exifデータによるjpegファイル名変更（Linux）](#exifデータによるjpegファイル名変更linux)
 - [Exifデータによるjpegファイル名変更・タイムスタンプ変更（Windows）](#exifデータによるjpegファイル名変更タイムスタンプ変更windows)
 
@@ -41,6 +42,15 @@ Last Updated : Jan. 2012
 画像を一括リサイズして、別ディレクトリに書き出すLinuxスクリプト
 
 [ソフトウエアのダウンロードおよびドキュメントは image-resize](image-resize/README.md) (2011/07/20)
+
+<br />
+<br />
+
+## J6I イメージコンバータ for RICOHデジカメDC-1/DC-2 (Windows)
+
+RICOH製デジタルカメラ DC-1/DC-2シリーズ（1997年ごろの製品) のJ6I形式画像ファイルをJPEGファイルに変換するするソフトウエア
+
+[ソフトウエアのダウンロードおよびドキュメントは j6i-conv-win](j6i-conv-win) (2000/03/07)
 
 <br />
 <br />

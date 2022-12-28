@@ -1,7 +1,7 @@
 ## ![icon](readme_pics/softdown-ico-j6i.gif) J6I イメージコンバータ for RICOHデジカメDC-1/DC-2 for Windows<!-- omit in toc -->
 
 ---
-[Home](https://oasis3855.github.io/webpage/) > [Software](https://oasis3855.github.io/webpage/software/index.html) > [Software Download](https://oasis3855.github.io/webpage/software/software-download.html) > [image-tools](../README.md) > ***j6i2jpg*** (this page)
+[Home](https://oasis3855.github.io/webpage/) > [Software](https://oasis3855.github.io/webpage/software/index.html) > [Software Download](https://oasis3855.github.io/webpage/software/software-download.html) > [image-tools](../README.md) > ***j6i-conv-win*** (this page)
 
 <br />
 <br />
@@ -21,7 +21,7 @@ Last Updated : Mar. 2000 -- ***this is discontinued software 開発終了***
 
 ## ソフトウエアのダウンロード
 
-- ![download icon](../readme_pics/soft-ico-download-darkmode.gif)   [このGitHubリポジトリを参照する](../j6i2jpg/download/) 
+- ![download icon](../readme_pics/soft-ico-download-darkmode.gif)   [このGitHubリポジトリを参照する](../j6i-conv-win/download/) 
 
 - ![download icon](../readme_pics/soft-ico-download-darkmode.gif)   [Googleドキュメントを参照する](https://drive.google.com/drive/folders/0B7BSijZJ2TAHNzVmZjQ0M2UtYTAyYi00YjQ5LTg5YjQtMjc3ZGJjNWY5NDNh?resourcekey=0-KAQmh4Mzs73kci9uJEXQPw) 
 
