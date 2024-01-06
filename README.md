@@ -22,7 +22,7 @@ Last Updated : Jan. 2012
 
 画像処理ソフトウエア[digiKam](https://www.digikam.org/)の画像コメントを、CSVファイルから一括インポート・CSVファイルに一括エクスポートするスクリプト
 
-[ソフトウエアのダウンロードおよびドキュメントは thumbnail-html](./digikam-comment-csv/README.md) (2012/01/28)
+[ソフトウエアのダウンロードおよびドキュメントは digikam-comment-csv](./digikam-comment-csv/README.md) (2012/01/28)
 
 
 <br />
