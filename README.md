@@ -7,32 +7,23 @@
 
 Last Updated : Jan. 2012
 
-- [サムネイルHTML作成スクリプト（Linux）](#サムネイルhtml作成スクリプトlinux)
-- [サムネイルHTML作成プログラム（Windows）](#サムネイルhtml作成プログラムwindows)
+- [画像管理ソフトdigiKamの画像コメントをSQLiteデータベースとの間でインポート／エクスポートするスクリプト (Linux)](#画像管理ソフトdigikamの画像コメントをsqliteデータベースとの間でインポートエクスポートするスクリプト-linux)
 - [画像一括リサイズ スクリプト](#画像一括リサイズ-スクリプト)
 - [J6I イメージコンバータ for RICOHデジカメDC-1/DC-2 (Windows)](#j6i-イメージコンバータ-for-ricohデジカメdc-1dc-2-windows)
 - [Exifデータによるjpegファイル名変更（Linux）](#exifデータによるjpegファイル名変更linux)
 - [Exifデータによるjpegファイル名変更・タイムスタンプ変更（Windows）](#exifデータによるjpegファイル名変更タイムスタンプ変更windows)
+- [サムネイルHTML作成スクリプト（Linux）](#サムネイルhtml作成スクリプトlinux)
+- [サムネイルHTML作成プログラム（Windows）](#サムネイルhtml作成プログラムwindows)
 
 <br />
 <br />
 
-## サムネイルHTML作成スクリプト（Linux）
+## 画像管理ソフトdigiKamの画像コメントをSQLiteデータベースとの間でインポート／エクスポートするスクリプト (Linux)
 
-画像ファイル（デジタルカメラの写真画像）のサムネイルHTMLファイルを作るLinux向けPerlスクリプト
+画像処理ソフトウエア[digiKam](https://www.digikam.org/)の画像コメントを、CSVファイルから一括インポート・CSVファイルに一括エクスポートするスクリプト
 
-[ソフトウエアのダウンロードおよびドキュメントは thumbnail-html](thumbnail-html/README.md) (2012/01/14)
+[ソフトウエアのダウンロードおよびドキュメントは thumbnail-html](./digikam-comment-csv/README.md) (2012/01/28)
 
-<br />
-<br />
-
-## サムネイルHTML作成プログラム（Windows）
-
-画像ファイル（デジタルカメラの写真画像）のサムネイルHTMLファイルを作るWindowsプログラム
-
-このプログラムの更新は中断し、新たな機能は「サムネイルHTML作成スクリプト（Linux）」に追加しています
-
-[ソフトウエアのダウンロードおよびドキュメントは thumbnail-html-win](thumbnail-html-win/README.md) (2003/05/11)
 
 <br />
 <br />
@@ -72,3 +63,26 @@ jpegファイルのExifデータを用いて、ファイルの名前を変換し
 
 <br />
 <br />
+
+## サムネイルHTML作成スクリプト（Linux）
+
+画像ファイル（デジタルカメラの写真画像）のサムネイルHTMLファイルを作るLinux向けPerlスクリプト
+
+[ソフトウエアのダウンロードおよびドキュメントは thumbnail-html](thumbnail-html/README.md) (2012/01/14)
+
+<br />
+<br />
+
+## サムネイルHTML作成プログラム（Windows）
+
+画像ファイル（デジタルカメラの写真画像）のサムネイルHTMLファイルを作るWindowsプログラム
+
+このプログラムの更新は中断し、新たな機能は「サムネイルHTML作成スクリプト（Linux）」に追加しています
+
+[ソフトウエアのダウンロードおよびドキュメントは thumbnail-html-win](thumbnail-html-win/README.md) (2003/05/11)
+
+
+<br />
+<br />
+
+
